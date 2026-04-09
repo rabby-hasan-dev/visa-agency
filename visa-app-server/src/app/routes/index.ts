@@ -10,6 +10,7 @@ import { PaymentRoutes } from '../modules/payment/payment.route';
 import { InvoiceRoutes } from '../modules/invoice/invoice.route';
 import { AdminRoutes } from '../modules/admin/admin.route';
 import { MessageRoutes } from '../modules/message/message.route';
+import { EnquiryRoutes } from '../modules/enquiry/enquiry.route';
 
 import { VisaApplicationRoutes } from '../modules/visaApplication/visaApplication.route';
 import { VisaTypeRoutes } from '../modules/visaType/visaType.route';
@@ -84,6 +85,10 @@ const moduleRoutes = [
   {
     path: '/user-passwords',
     route: UserPasswordRoutes,
+  },
+  {
+    path: '/enquiries',
+    route: EnquiryRoutes,
   },
 ];
 

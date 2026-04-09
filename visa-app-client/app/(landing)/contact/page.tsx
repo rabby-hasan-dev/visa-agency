@@ -1,13 +1,40 @@
 "use client";
 
-import { Mail, Phone, MapPin, MessageSquare, Clock, Globe, ArrowRight, ShieldCheck } from "lucide-react";
+import { useState } from "react";
+import { Mail, Phone, MapPin, MessageSquare, Clock, Globe, ArrowRight, ShieldCheck, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useGetSiteSettingsQuery } from "@/redux/api/settingsApi";
+import { useCreateEnquiryMutation } from "@/redux/api/enquiryApi";
 import { TSiteSettings } from "@/types/settings";
+import { toast } from "sonner";
 
 export default function ContactPage() {
   const { data: siteResponse } = useGetSiteSettingsQuery({});
   const siteSettings = (siteResponse?.data || {}) as TSiteSettings;
+  const [createEnquiry, { isLoading }] = useCreateEnquiryMutation();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.name || !formData.email || !formData.message) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    try {
+      await createEnquiry(formData).unwrap();
+      toast.success("Enquiry sent successfully! We will get back to you soon.");
+      setFormData({ name: "", email: "", message: "" });
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Failed to send enquiry. Please try again.");
+    }
+  };
 
   return (
     <div className="bg-[#020617] min-h-screen text-white pb-24 font-sans">
@@ -86,23 +113,45 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* ── Sidebar Actions ── */}
+        {/* ── Sidebar Actions (Form) ── */}
         <div className="space-y-6">
-          <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[2.5rem] p-8 text-white shadow-2xl shadow-blue-500/20 relative overflow-hidden">
+          <form onSubmit={handleSubmit} className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[2.5rem] p-8 text-white shadow-2xl shadow-blue-500/20 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full translate-x-10 -translate-y-10 blur-2xl" />
             <h3 className="text-xl font-black tracking-tight uppercase mb-4">Send us a message</h3>
             <p className="text-blue-100 text-sm mb-8 leading-relaxed">
               We usually respond within 24 hours. Your details are safe with us.
             </p>
             <div className="space-y-4">
-              <input type="text" placeholder="Your Name" className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm placeholder:text-blue-200 outline-none focus:bg-white/20 transition-all" />
-              <input type="email" placeholder="Email Address" className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm placeholder:text-blue-200 outline-none focus:bg-white/20 transition-all" />
-              <textarea placeholder="How can we help?" rows={4} className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm placeholder:text-blue-200 outline-none focus:bg-white/20 transition-all" />
-              <button className="w-full bg-white text-blue-600 py-3.5 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-gray-100 transition-all active:scale-95 shadow-xl">
-                Send Message
+              <input 
+                type="text" 
+                placeholder="Your Name" 
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm placeholder:text-blue-200 outline-none focus:bg-white/20 transition-all font-medium" 
+              />
+              <input 
+                type="email" 
+                placeholder="Email Address" 
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm placeholder:text-blue-200 outline-none focus:bg-white/20 transition-all font-medium" 
+              />
+              <textarea 
+                placeholder="How can we help?" 
+                rows={4} 
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm placeholder:text-blue-200 outline-none focus:bg-white/20 transition-all font-medium" 
+              />
+              <button 
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-white text-blue-600 py-3.5 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-gray-100 transition-all active:scale-95 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {isLoading ? <Loader2 size={16} className="animate-spin" /> : "Send Message"}
               </button>
             </div>
-          </div>
+          </form>
 
           <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-md">
              <div className="flex items-center gap-3 mb-4">

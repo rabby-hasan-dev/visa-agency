@@ -70,6 +70,7 @@ const getNavigation = async (role?: string) => {
         { name: 'Manage Fees', href: '/manage-fees', role: 'admin', sortOrder: 10 },
         { name: 'User Passwords', href: '/manage-user-passwords', role: 'admin', sortOrder: 11 },
         { name: 'Reports', href: '/reports', role: 'admin', sortOrder: 12 },
+        { name: 'Enquiries', href: '/manage-enquiries', role: 'admin', sortOrder: 13 },
     ];
 
     if (!settings) {
@@ -79,7 +80,7 @@ const getNavigation = async (role?: string) => {
         const currentNav = settings.navigation as unknown as TNavigationItem[];
         let hasChanges = false;
 
-        const essentialHrefs = ['/payments', '/manage-payments', '/manage-fees', '/manage-user-passwords', '/reports'];
+        const essentialHrefs = ['/payments', '/manage-payments', '/manage-fees', '/manage-user-passwords', '/reports', '/manage-enquiries'];
 
         for (const href of essentialHrefs) {
             if (!currentNav.some(item => item.href === href)) {

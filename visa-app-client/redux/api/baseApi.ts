@@ -3,7 +3,7 @@ import { RootState } from '../store';
 
 export const baseApi = createApi({
     reducerPath: 'baseApi',
-    tagTypes: ['Auth', 'Client', 'Application', 'User', 'Message', 'VisaType', 'Question', 'AccessRequest', 'TransitCountry', 'Settings', 'Payments', 'Invoices', 'Fees'],
+    tagTypes: ['Auth', 'Client', 'Application', 'User', 'Message', 'VisaType', 'Question', 'AccessRequest', 'TransitCountry', 'Settings', 'Payments', 'Invoices', 'Fees', 'Enquiries'],
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.NEXT_PUBLIC_API_URL,
         prepareHeaders: (headers, { getState }) => {
