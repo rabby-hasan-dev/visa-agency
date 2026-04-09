@@ -1,51 +1,94 @@
 "use client";
 
+import { AlertTriangle, ShieldCheck, Scale, ExternalLink } from "lucide-react";
+
 export default function DisclaimerPage() {
   return (
-    <div className="bg-gray-100 min-h-screen pb-10">
-      <div className="bg-[#1a2b4a] h-11 flex items-center px-5 text-white text-lg font-bold">
-        Disclaimer
-      </div>
-      <div className="max-w-4xl mx-auto mt-8 px-4">
-        <div className="bg-white border border-gray-300 shadow-sm p-8">
-          <h1 className="text-2xl font-bold text-[#2150a0] mb-6">
-            Website Disclaimer
+    <div className="bg-[#020617] min-h-screen text-white pb-24">
+      {/* ── Hero Section ── */}
+      <div className="relative pt-32 pb-20 px-4 overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-gradient-to-b from-blue-600/10 to-transparent -z-10" />
+        <div className="max-w-4xl mx-auto text-center space-y-4">
+          <h1 className="text-4xl md:text-5xl font-black tracking-tighter uppercase leading-none">
+            Legal <span className="text-blue-500">Disclaimer</span>
           </h1>
-
-          <h2 className="text-lg font-bold text-[#1a2b4a] mt-6 mb-3">
-            No Legal Advice
-          </h2>
-          <p className="text-sm text-gray-700 mb-4 leading-relaxed">
-            The information contained on this website is for general
-            informational purposes only and does not constitute legal or
-            migration advice. While we endeavor to keep the information up to
-            date and correct, we make no representations or warranties of any
-            kind regarding the completeness, accuracy, reliability, or
-            suitability of the website or the information contained herein.
+          <p className="text-gray-400 text-sm md:text-base font-medium max-w-xl mx-auto uppercase tracking-widest px-4">
+            Essential transparency regarding our services and immigration representation.
           </p>
+        </div>
+      </div>
 
-          <h2 className="text-lg font-bold text-[#1a2b4a] mt-6 mb-3">
-            External Links
-          </h2>
-          <p className="text-sm text-gray-700 mb-4 leading-relaxed">
-            Through this website you may be able to link to other websites which
-            are not under the control of the Department. We have no control over
-            the nature, content and availability of those sites. The inclusion
-            of any links does not necessarily imply a recommendation or endorse
-            the views expressed within them.
-          </p>
+      <div className="max-w-4xl mx-auto px-4 space-y-8">
+        {/* ── Main Information ── */}
+        <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 md:p-12 backdrop-blur-xl space-y-12">
+          
+          {/* Private Agency Notice */}
+          <div className="flex flex-col md:flex-row gap-8 items-start">
+            <div className="w-14 h-14 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500 shrink-0 border border-amber-500/20">
+              <AlertTriangle size={28} />
+            </div>
+            <div className="space-y-3">
+              <h2 className="text-xl font-bold tracking-tight text-white group flex items-center gap-2">
+                Independent Representation
+              </h2>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Visa Central Bangladeshi Partner is a <strong>private immigration consultancy</strong> and an independent agency. We are not affiliated with the Australian Department of Home Affairs or any other government body. While we are licensed partners, our services are independent representations provided to clients globally.
+              </p>
+            </div>
+          </div>
 
-          <h2 className="text-lg font-bold text-[#1a2b4a] mt-6 mb-3">
-            Liability
-          </h2>
-          <p className="text-sm text-gray-700 mb-4 leading-relaxed">
-            In no event will we be liable for any loss or damage including
-            without limitation, indirect or consequential loss or damage,
-            arising out of, or in connection with, the use of this website.
-          </p>
+          <div className="h-px bg-white/5 w-full" />
+
+          {/* No Legal Advice */}
+          <div className="flex flex-col md:flex-row gap-8 items-start">
+            <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-500 shrink-0 border border-blue-500/20">
+              <Scale size={28} />
+            </div>
+            <div className="space-y-3">
+               <h2 className="text-xl font-bold tracking-tight text-white">General Information Only</h2>
+               <p className="text-gray-400 text-sm leading-relaxed">
+                 The content on this website is for general information and your curiosity. It is <strong>not</strong> specific legal or migration advice. Immigration laws change very often. We try our best to keep things updated, but you should always talk to one of our licensed experts before making big decisions.
+               </p>
+            </div>
+          </div>
+
+          <div className="h-px bg-white/5 w-full" />
+
+          {/* External Links */}
+          <div className="flex flex-col md:flex-row gap-8 items-start">
+            <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-500 shrink-0 border border-emerald-500/20">
+              <ExternalLink size={28} />
+            </div>
+            <div className="space-y-3">
+               <h2 className="text-xl font-bold tracking-tight text-white">External Connections</h2>
+               <p className="text-gray-400 text-sm leading-relaxed">
+                 Our website might show links to other websites. We don't own those websites and we don't control what's on them. If you click a link and go to another site, please be careful—we are not responsible for what you find there or how they handle your data.
+               </p>
+            </div>
+          </div>
+
+          <div className="h-px bg-white/5 w-full" />
+
+          {/* No Guarantees */}
+          <div className="flex flex-col md:flex-row gap-8 items-start">
+            <div className="w-14 h-14 rounded-2xl bg-rose-500/10 flex items-center justify-center text-rose-500 shrink-0 border border-rose-500/20">
+              <ShieldCheck size={28} />
+            </div>
+            <div className="space-y-3">
+               <h2 className="text-xl font-bold tracking-tight text-white">No Result Guarantees</h2>
+               <p className="text-gray-400 text-sm leading-relaxed">
+                 We are experts at preparing visa applications, but we do <strong>not</strong> guarantee that your visa will be granted. The final decision always rests with the Australian government authorities. Any mention of past successes on this site does not promise future results.
+               </p>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Footer Quote ── */}
+        <div className="text-center space-y-2">
+          <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Official Transparency Notice</p>
+          <p className="text-[10px] text-gray-600 italic">Last updated: April 2024 · Bangladesh Operations Center</p>
         </div>
       </div>
     </div>
   );
 }
-
