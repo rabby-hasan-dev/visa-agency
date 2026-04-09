@@ -221,7 +221,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       )}
 
       {/* ── Main Content ─────────────────────────────────────────────────── */}
-      <main className="flex-grow p-4 sm:p-6 max-w-screen-xl w-full mx-auto">
+      <main className="flex-grow p-4 sm:p-6 max-w-screen-xl w-full mx-auto text-gray-900">
         {children}
       </main>
 
