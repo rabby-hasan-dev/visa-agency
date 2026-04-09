@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .content { margin: 20px; }
+        .field { margin-bottom: 10px; }
+        .label { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Visa Application Summary</h1>
+        <p>Application ID: <%= applicationId %></p>
+    </div>
+    <div class="content">
+        <div class="field">
+            <span class="label">Client Name:</span> <%= clientName %>
+        </div>
+        <div class="field">
+            <span class="label">Passport Number:</span> <%= passportNumber %>
+        </div>
+        <div class="field">
+            <span class="label">Status:</span> <%= status %>
+        </div>
+        <div class="field">
+            <span class="label">Date:</span> <%= date %>
+        </div>
+        <hr/>
+        <h3>Application Details</h3>
+        <!-- Iterate over formData steps if needed, for MVP showing JSON dump or specific fields -->
+        <pre><%= JSON.stringify(formData, null, 2) %></pre>
+    </div>
+</body>
+</html>

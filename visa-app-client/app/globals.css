@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+:root {
+  --background: #040d1a;
+  --foreground: #e2e8f0;
+}
+
+/* stylelint-disable-next-line at-rule-no-unknown */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Dashboard overrides ─────────────────────────────────────────────────── */
+/* Use @layer base so Tailwind utility classes (text-white, text-gray-700,
+   text-[#2150a0], etc.) can still override this default color.
+   Without @layer, unlayered CSS beats Tailwind's @layer utilities,
+   breaking ALL color classes inside the dashboard. */
+
+@layer base {
+  .dashboard-root {
+    background: #f0f4f8;
+    color: #333;
+  }
+
+  /* Inputs — ensure dark text on white bg */
+  .dashboard-root input,
+  .dashboard-root select,
+  .dashboard-root textarea {
+    color: #333;
+    background-color: #fff;
+  }
+
+  .dashboard-root input::placeholder,
+  .dashboard-root textarea::placeholder {
+    color: #999;
+    opacity: 1;
+  }
+}
+
+/* ─── Global scrollbar (dark theme) ───────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #030b18;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e3a5f;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
+}
+
+/* Dashboard scrollbar (light theme) */
+.dashboard-root ::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.dashboard-root ::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+}
+.dashboard-root ::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* Selection */
+::selection {
+  background: rgba(59, 130, 246, 0.35);
+  color: #e0f2fe;
+}
+
+/* Smooth anchor offset for fixed navbar */
+section[id] {
+  scroll-margin-top: 80px;
+}

@@ -1,0 +1,17 @@
+"use client";
+
+import { Provider } from "react-redux";
+import { persistor, store } from "./store";
+import { PersistGate } from "redux-persist/integration/react";
+
+import { AlertProvider } from "@/components/ui";
+
+export default function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <AlertProvider>{children}</AlertProvider>
+      </PersistGate>
+    </Provider>
+  );
+}
