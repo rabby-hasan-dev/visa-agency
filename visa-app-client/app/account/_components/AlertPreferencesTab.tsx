@@ -57,7 +57,7 @@ export const AlertPreferencesTab = ({ onSubmit, profile }: AlertPreferencesTabPr
                   type="checkbox"
                   id={id}
                   name={id}
-                  defaultChecked={(profile as Record<string, unknown>)?.[id] as boolean ?? true}
+                  defaultChecked={profile[id as keyof TProfile] as boolean ?? true}
                   className="mt-0.5 h-4 w-4 rounded border-gray-300 accent-blue-600 cursor-pointer"
                 />
                 <div>

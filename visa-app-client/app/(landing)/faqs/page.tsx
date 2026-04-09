@@ -1,6 +1,7 @@
 "use client";
 import Header from "@/components/landing/Header";
 import Footer from "@/components/landing/Footer";
+import Link from "next/link";
 import { useState } from "react";
 import { 
   ChevronDown, 
