@@ -12,6 +12,7 @@ import { jwtDecode, JwtPayload } from "jwt-decode";
 import { useAlert } from "@/components/ui";
 import { useGetSiteSettingsQuery } from "@/redux/api/settingsApi";
 import { TSiteSettings } from "@/types/settings";
+import { Globe, ShieldCheck, Mail, Lock, ArrowRight, ChevronLeft } from "lucide-react";
 
 interface CustomJwtPayload extends JwtPayload {
   role: string;
@@ -33,9 +34,9 @@ const LoginPage = () => {
   const { data: siteResponse } = useGetSiteSettingsQuery({});
 
   const siteSettings = (siteResponse?.data ?? {
-    siteName: "ImmiAccount",
-    brandName: "Australian Government",
-    departmentName: "Department of Home Affairs",
+    siteName: "Elite Visa Hub",
+    brandName: "Global Passports & Visas",
+    departmentName: "Advanced Immigration Consultants",
   }) as TSiteSettings;
 
   const onSubmit = async (data: LoginValues) => {
@@ -70,166 +71,139 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="bg-[#ccc] min-h-screen font-sans text-[12px] text-[#333] pb-10">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-[#1b3564] to-[#0b6e9d] min-h-[45px] py-2 md:py-0 flex flex-col md:flex-row items-center justify-between px-5 text-white gap-2">
-        <div className="flex items-center gap-[10px]">
-          <div className="font-bold text-sm text-center md:text-left">{siteSettings.brandName}</div>
-          <div className="w-px h-5 bg-white/30 hidden sm:block" />
-          <div className="text-[13px] hidden sm:block">{siteSettings.departmentName}</div>
-        </div>
-        <div className="text-base font-light">{siteSettings.siteName}</div>
+    <div className="bg-[#040d1a] min-h-screen font-sans text-gray-200 flex flex-col relative overflow-hidden">
+      {/* Background Orbs */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-600/10 rounded-full blur-[120px]" />
       </div>
 
-      <div className="max-w-[800px] mx-auto mt-5 px-[15px]">
-        <h2 className="text-[#1b3564] text-lg font-normal mb-[15px]">
-          Login to {siteSettings.siteName}
-        </h2>
+      {/* Header */}
+      <header className="relative z-20 px-6 py-8">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform">
+              <Globe className="text-white" size={24} />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-extrabold text-xl tracking-tight text-white leading-none">
+                {siteSettings.siteName}
+              </span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-blue-400 font-bold mt-1">
+                {siteSettings.departmentName}
+              </span>
+            </div>
+          </Link>
+          <Link 
+            href="/" 
+            className="flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-white transition-colors"
+          >
+            <ChevronLeft size={18} /> Back to Home
+          </Link>
+        </div>
+      </header>
 
-        {/* Login Panel */}
-        <div className="border border-[#ccc] bg-white">
-          <div className="bg-[#1b3564] text-white py-[10px] px-[15px] font-bold text-sm">
-            Login
+      <div className="flex-grow flex items-center justify-center px-6 relative z-20 pb-20">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-10">
+            <h1 className="text-4xl font-black text-white mb-3">Welcome Back</h1>
+            <p className="text-gray-400">Enter your credentials to access your portal</p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="p-5">
-              <p className="mb-5">
-                Enter your {siteSettings.siteName} username and password to login.
-              </p>
-
-              {/* Email / Username Field */}
-              <div className="flex flex-col md:flex-row mb-[15px] md:items-center">
-                <label
-                  id="email"
-                  className="md:w-1/5 font-bold md:text-right pr-[15px] mb-1 md:mb-0"
-                >
-                  Username <span className="text-[#c41a1f]">*</span>
-                </label>
-                <div className="flex-1">
+          {/* Login Card */}
+          <div className="bg-white/5 border border-white/10 backdrop-blur-xl rounded-[2.5rem] p-8 lg:p-10 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/5 rounded-full blur-3xl -mr-16 -mt-16" />
+            
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 relative z-10">
+              {/* Email Field */}
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-300 ml-1">Email Address</label>
+                <div className="relative group">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-blue-400 transition-colors" size={20} />
                   <input
                     {...register("email")}
                     type="email"
-                    className={`w-full md:w-3/5 py-[6px] px-2 border ${errors.email ? "border-[#c41a1f]" : "border-[#aaa]"} text-[13px] rounded-sm text-[#333] bg-white`}
+                    placeholder="name@company.com"
+                    className={`w-full bg-white/5 border ${errors.email ? "border-rose-500/50" : "border-white/10"} rounded-2xl py-4 pl-12 pr-4 text-white outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all`}
                   />
-                  {errors.email && (
-                    <div className="flex items-center text-[#c41a1f] mt-1">
-                      <span className="text-[10px] mr-[5px]">●</span>
-                      {errors.email.message as string}
-                    </div>
-                  )}
                 </div>
+                {errors.email && (
+                  <p className="text-rose-400 text-xs mt-1 ml-1">{errors.email.message as string}</p>
+                )}
               </div>
 
               {/* Password Field */}
-              <div className="flex flex-col md:flex-row mb-[15px] md:items-center">
-                <label className="md:w-1/5 font-bold md:text-right pr-[15px] mb-1 md:mb-0">
-                  Password <span className="text-[#c41a1f]">*</span>
-                </label>
-                <div className="flex-1">
+              <div className="space-y-2">
+                <div className="flex justify-between items-center ml-1">
+                  <label className="text-sm font-bold text-gray-300">Password</label>
+                  <Link href="/forgot-password" size={12} className="text-xs text-blue-400 hover:text-blue-300 transition-colors font-semibold">
+                    Forgot Password?
+                  </Link>
+                </div>
+                <div className="relative group">
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-blue-400 transition-colors" size={20} />
                   <input
                     {...register("password")}
                     type="password"
-                    className={`w-full md:w-3/5 py-[6px] px-2 border ${errors.password ? "border-[#c41a1f]" : "border-[#aaa]"} text-[13px] rounded-sm text-[#333] bg-white`}
+                    placeholder="••••••••"
+                    className={`w-full bg-white/5 border ${errors.password ? "border-rose-500/50" : "border-white/10"} rounded-2xl py-4 pl-12 pr-4 text-white outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all`}
                   />
-                  {errors.password && (
-                    <div className="flex items-center text-[#c41a1f] mt-1">
-                      <span className="text-[10px] mr-[5px]">●</span>
-                      {errors.password.message as string}
-                    </div>
-                  )}
                 </div>
+                {errors.password && (
+                  <p className="text-rose-400 text-xs mt-1 ml-1">{errors.password.message as string}</p>
+                )}
               </div>
 
-              <p className="md:ml-[20%] text-[11px] text-[#555]">
-                <Link
-                  href="/forgot-password"
-                  className="text-[#1b3564] underline hover:no-underline"
-                >
-                  Forgotten your username or password?
-                </Link>
-              </p>
-            </div>
-
-            {/* Button Bar */}
-            <div className="bg-[#e5e5e5] border-t border-[#ccc] py-[10px] px-5 flex justify-between">
-              <button
-                type="button"
-                className="py-1 px-[15px] border border-[#777] bg-[#eee] cursor-pointer text-[12px] text-[#333] hover:bg-[#e0e0e0]"
-              >
-                Cancel
-              </button>
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`py-1 px-[25px] border border-[#1b3564] ${isLoading ? "bg-[#aaa] cursor-not-allowed" : "bg-[#1b3564] cursor-pointer"} font-bold text-[12px] text-white hover:opacity-90`}
+                className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl transition shadow-xl shadow-blue-600/20 flex items-center justify-center gap-2 group ${isLoading ? "opacity-70 cursor-not-allowed" : ""}`}
               >
-                {isLoading ? "Logging in..." : "Login"}
+                {isLoading ? (
+                  "Logging in..."
+                ) : (
+                  <>
+                    Sign In <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
               </button>
-            </div>
-          </form>
-        </div>
+            </form>
 
-        {/* Account Creation Section */}
-        <div className="border border-[#ccc] bg-white mt-5">
-          <div className="bg-[#1b3564] text-white py-[10px] px-[15px] font-bold text-sm">
-            Create {siteSettings.siteName}
-          </div>
-          <div className="p-5">
-            <p className="mb-[15px]">
-              If you do not have an {siteSettings.siteName}, you will need to create one.
-            </p>
-            <div className="bg-[#e5e5e5] border-t border-[#ccc] m-[-20px] mt-5 p-[10px] px-5 text-right">
-              <Link href="/register">
-                <button className="py-1 px-5 border border-[#1b3564] bg-[#1b3564] text-white font-bold cursor-pointer text-[12px] hover:opacity-90">
-                  Create {siteSettings.siteName}
-                </button>
-              </Link>
+            <div className="mt-8 pt-8 border-t border-white/5 text-center">
+              <p className="text-gray-400 text-sm">
+                Don&apos;t have an account?{" "}
+                <Link href="/register" className="text-white font-bold hover:text-blue-400 transition-colors">
+                  Create Agent Account
+                </Link>
+              </p>
             </div>
           </div>
-        </div>
 
-        {/* Footer Section */}
-        <div className="mt-10 text-center">
-          <hr className="border-none border-t border-dotted border-[#777] mb-[15px]" />
-          <div className="text-[11px] text-[#555] flex flex-wrap justify-center gap-[10px] px-4">
-            <Link
-              href="/legal#accessibility"
-              className="text-[#1b3564] hover:underline"
-            >
-              Accessibility
-            </Link>
-            <span className="hidden sm:inline">|</span>
-            <Link
-              href="/legal#copyright"
-              className="text-[#1b3564] hover:underline"
-            >
-              Copyright
-            </Link>
-            <span className="hidden sm:inline">|</span>
-            <Link
-              href="/legal#disclaimer"
-              className="text-[#1b3564] hover:underline"
-            >
-              Disclaimer
-            </Link>
-            <span className="hidden sm:inline">|</span>
-            <Link
-              href="/legal#privacy"
-              className="text-[#1b3564] hover:underline"
-            >
-              Privacy
-            </Link>
-            <span className="hidden sm:inline">|</span>
-            <Link
-              href="/legal#security"
-              className="text-[#1b3564] hover:underline"
-            >
-              Security
-            </Link>
+          {/* Trust Footer */}
+          <div className="mt-10 flex items-center justify-center gap-6 opacity-30 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-700">
+             <div className="flex items-center gap-2">
+                <ShieldCheck size={18} className="text-blue-400" />
+                <span className="text-xs font-bold uppercase tracking-widest">SSL Secured</span>
+             </div>
+             <div className="w-px h-4 bg-white/20" />
+             <div className="text-xs font-bold uppercase tracking-widest">Encrypted Data</div>
           </div>
         </div>
       </div>
+
+      {/* Simplified Footer */}
+      <footer className="py-8 px-6 border-t border-white/5 relative z-20">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.2em] font-bold text-gray-500">
+          <div className="flex flex-wrap justify-center gap-6">
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
+            <Link href="/legal" className="hover:text-white transition-colors">Legal</Link>
+            <Link href="/security" className="hover:text-white transition-colors">Security</Link>
+          </div>
+          <div>
+            &copy; {new Date().getFullYear()} {siteSettings.brandName}
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

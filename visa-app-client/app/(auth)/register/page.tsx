@@ -10,6 +10,21 @@ import { useAlert } from "@/components/ui";
 import Link from "next/link";
 import { useGetSiteSettingsQuery } from "@/redux/api/settingsApi";
 import { TSiteSettings } from "@/types/settings";
+import { 
+  Globe, 
+  ArrowRight, 
+  ChevronLeft, 
+  User, 
+  Building2, 
+  ShieldCheck, 
+  Check,
+  Phone,
+  Calendar,
+  MapPin,
+  Mail,
+  Lock,
+  Flag
+} from "lucide-react";
 
 const RegisterPage = () => {
   const {
@@ -27,13 +42,12 @@ const RegisterPage = () => {
   const { data: siteResponse } = useGetSiteSettingsQuery({});
 
   const siteSettings = (siteResponse?.data ?? {
-    siteName: "ImmiAccount",
-    brandName: "Australian Government",
-    departmentName: "Department of Home Affairs",
+    siteName: "Elite Visa Hub",
+    brandName: "Global Passports & Visas",
+    departmentName: "Advanced Immigration Consultants",
   }) as TSiteSettings;
 
   const onSubmit = async (data: RegisterValues) => {
-    // Combine givenNames and familyName into name for backend compatibility if needed
     const secretQuestions = [
       { question: data.q1, answer: data.a1 },
       { question: data.q2, answer: data.a2 },
@@ -95,460 +109,365 @@ const RegisterPage = () => {
     const isValid = await validateStep();
     if (isValid) {
       setStep((prev) => prev + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
-  const prevStep = () => setStep((prev) => prev - 1);
+  const prevStep = () => {
+    setStep((prev) => prev - 1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const steps = [
+    { id: 1, name: "Personal", icon: User },
+    { id: 2, name: "Organisation", icon: Building2 },
+    { id: 3, name: "Security", icon: ShieldCheck }
+  ];
 
   return (
-    <div className="bg-[#f4f4f4] min-h-screen font-sans text-[13px] text-[#333] pb-10">
-      {/* Header */}
-      <div className="bg-[#1b3564] min-h-[60px] py-2 md:py-0 flex flex-col md:flex-row items-center justify-between px-5 text-white shadow-[0_2px_4px_rgba(0,0,0,0.1)] gap-2">
-        <div className="flex items-center gap-[10px]">
-          <div className="font-bold text-base text-center md:text-left">{siteSettings.brandName}</div>
-          <div className="w-px h-[25px] bg-white/30 hidden sm:block" />
-          <div className="text-sm hidden sm:block">{siteSettings.departmentName}</div>
-        </div>
-        <div className="text-xl font-light">{siteSettings.siteName}</div>
+    <div className="bg-[#040d1a] min-h-screen font-sans text-gray-200 flex flex-col relative overflow-hidden">
+      {/* Background Orbs */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-600/10 rounded-full blur-[120px]" />
       </div>
 
-      <div className="max-w-[850px] mx-auto mt-[30px] px-[15px]">
-        <h2 className="text-[#1b3564] text-2xl font-normal mb-5">
-          Create {siteSettings.siteName} - Agent Registration
-        </h2>
-
-        {/* Progress Indicator */}
-        <div className="flex mb-[25px] gap-[10px]">
-          <div
-            className={`flex-1 h-1 ${step >= 1 ? "bg-[#d35400]" : "bg-[#ccc]"}`}
-          />
-          <div
-            className={`flex-1 h-1 ${step >= 2 ? "bg-[#d35400]" : "bg-[#ccc]"}`}
-          />
-          <div
-            className={`flex-1 h-1 ${step >= 3 ? "bg-[#d35400]" : "bg-[#ccc]"}`}
-          />
+      {/* Header */}
+      <header className="relative z-20 px-6 py-8">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform">
+              <Globe className="text-white" size={24} />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-extrabold text-xl tracking-tight text-white leading-none">
+                {siteSettings.siteName}
+              </span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-blue-400 font-bold mt-1">
+                {siteSettings.departmentName}
+              </span>
+            </div>
+          </Link>
+          <Link 
+            href="/login" 
+            className="flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-white transition-colors"
+          >
+            <ChevronLeft size={18} /> Back to Login
+          </Link>
         </div>
+      </header>
 
-        {/* Register Panel */}
-        <div className="border border-[#ccc] bg-white shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
-          <div className="bg-[#1b3564] text-white py-3 px-5 font-bold text-[15px]">
-            {step === 1 && "Step 1: Personal Details"}
-            {step === 2 && "Step 2: Organisation Details"}
-            {step === 3 && "Step 3: Account Security & Secret Questions"}
+      <div className="flex-grow flex items-center justify-center px-6 relative z-20 pb-20 mt-4">
+        <div className="w-full max-w-2xl">
+          <div className="text-center mb-10">
+            <h1 className="text-4xl font-black text-white mb-3">Agent Registration</h1>
+            <p className="text-gray-400">Join our network of certified global migration partners</p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="p-[25px] px-[30px]">
-              {step === 1 && (
-                <div className="flex flex-col gap-[15px]">
-                  <p className="mb-5 text-[#555]">
-                    Fields marked <span className="text-[#c41a1f]">*</span> must
-                    be completed.
-                  </p>
-
-                  {/* Title */}
-                  <div className="flex flex-col sm:flex-row sm:items-center mb-[15px] gap-2 md:gap-0">
-                    <label className="sm:w-[200px] font-semibold">Title</label>
-                    <select
-                      {...register("title")}
-                      className="w-full sm:w-[300px] p-2 border border-[#aaa] rounded-sm focus:outline-none focus:ring-1 focus:ring-[#1b3564]"
-                    >
-                      <option value=""></option>
-                      <option value="Mr">Mr</option>
-                      <option value="Mrs">Mrs</option>
-                      <option value="Ms">Ms</option>
-                      <option value="Miss">Miss</option>
-                      <option value="Dr">Dr</option>
-                    </select>
+          {/* Progress Multi-step */}
+          <div className="flex items-center justify-between mb-12 max-w-md mx-auto relative">
+             <div className="absolute top-1/2 left-0 w-full h-0.5 bg-white/5 -translate-y-1/2 -z-10" />
+             {steps.map((s, idx) => (
+               <div key={s.id} className="flex flex-col items-center gap-3">
+                  <div 
+                    className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 border-2 ${
+                      step > s.id 
+                      ? "bg-blue-600 border-blue-600 shadow-lg shadow-blue-600/20" 
+                      : step === s.id 
+                      ? "bg-[#040d1a] border-blue-500 text-blue-400" 
+                      : "bg-[#040d1a] border-white/10 text-gray-600"
+                    }`}
+                  >
+                    {step > s.id ? <Check size={20} className="text-white" /> : <s.icon size={20} />}
                   </div>
+                  <span className={`text-[10px] uppercase tracking-widest font-black ${step === s.id ? "text-blue-400" : "text-gray-600"}`}>
+                    {s.name}
+                  </span>
+               </div>
+             ))}
+          </div>
 
-                  {/* Given Names */}
-                  <div className="flex flex-col sm:flex-row mb-[15px] sm:items-center gap-2 md:gap-0">
-                    <label className="sm:w-[200px] font-semibold">
-                      Given names <span className="text-[#c41a1f]">*</span>
-                    </label>
-                    <div className="flex-1">
-                      <input
-                        {...register("givenNames")}
-                        type="text"
-                        className={`w-full sm:w-[300px] p-2 border ${errors.givenNames ? "border-[#c41a1f]" : "border-[#aaa]"} rounded-sm focus:outline-none focus:ring-1 focus:ring-[#1b3564]`}
-                      />
-                      {errors.givenNames && (
-                        <div className="text-[#c41a1f] text-[11px] mt-1">
-                          {errors.givenNames.message as string}
-                        </div>
-                      )}
+          {/* Form Card */}
+          <div className="bg-white/5 border border-white/10 backdrop-blur-xl rounded-[2.5rem] p-8 lg:p-12 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/5 rounded-full blur-3xl -mr-16 -mt-16" />
+            
+            <form onSubmit={handleSubmit(onSubmit)}>
+              {step === 1 && (
+                <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
+                  <div className="grid grid-cols-1 sm:grid-cols-4 gap-6">
+                    <div className="col-span-1 space-y-2">
+                       <label className="text-sm font-bold text-gray-300 ml-1">Title</label>
+                       <select
+                        {...register("title")}
+                        className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-4 text-white outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all appearance-none"
+                      >
+                        <option value="" className="bg-[#040d1a]">Title</option>
+                        <option value="Mr" className="bg-[#040d1a]">Mr</option>
+                        <option value="Mrs" className="bg-[#040d1a]">Mrs</option>
+                        <option value="Ms" className="bg-[#040d1a]">Ms</option>
+                        <option value="Dr" className="bg-[#040d1a]">Dr</option>
+                      </select>
+                    </div>
+                    <div className="col-span-1 sm:col-span-3 space-y-2">
+                      <label className="text-sm font-bold text-gray-300 ml-1">Given Names <span className="text-blue-500">*</span></label>
+                      <div className="relative group">
+                        <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-blue-400 transition-colors" size={20} />
+                        <input
+                          {...register("givenNames")}
+                          type="text"
+                          placeholder="First Name"
+                          className={`w-full bg-white/5 border ${errors.givenNames ? "border-rose-500/50" : "border-white/10"} rounded-2xl py-4 pl-12 pr-4 text-white outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all`}
+                        />
+                      </div>
+                      {errors.givenNames && <p className="text-rose-400 text-xs mt-1 ml-1">{errors.givenNames.message as string}</p>}
                     </div>
                   </div>
 
-                  {/* Family Name */}
-                  <div className="flex flex-col sm:flex-row mb-[15px] sm:items-center gap-2 md:gap-0">
-                    <label className="sm:w-[200px] font-semibold">
-                      Family name <span className="text-[#c41a1f]">*</span>
-                    </label>
-                    <div className="flex-1">
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-300 ml-1">Family Name <span className="text-blue-500">*</span></label>
+                    <div className="relative group">
+                      <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-blue-400 transition-colors" size={20} />
                       <input
                         {...register("familyName")}
                         type="text"
-                        className={`w-full sm:w-[300px] p-2 border ${errors.familyName ? "border-[#c41a1f]" : "border-[#aaa]"} rounded-sm focus:outline-none focus:ring-1 focus:ring-[#1b3564]`}
-                      />
-                      {errors.familyName && (
-                        <div className="text-[#c41a1f] text-[11px] mt-1">
-                          {errors.familyName.message as string}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Date of Birth */}
-                  <div className="flex flex-col sm:flex-row mb-[15px] sm:items-center gap-2 md:gap-0">
-                    <label className="sm:w-[200px] font-semibold">
-                      Date of birth <span className="text-[#c41a1f]">*</span>
-                    </label>
-                    <div className="flex-1">
-                      <input
-                        {...register("dateOfBirth")}
-                        type="date"
-                        className={`w-full sm:w-[300px] p-2 border ${errors.dateOfBirth ? "border-[#c41a1f]" : "border-[#aaa]"} rounded-sm focus:outline-none focus:ring-1 focus:ring-[#1b3564]`}
+                        placeholder="Last Name"
+                        className={`w-full bg-white/5 border ${errors.familyName ? "border-rose-500/50" : "border-white/10"} rounded-2xl py-4 pl-12 pr-4 text-white outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all`}
                       />
                     </div>
+                    {errors.familyName && <p className="text-rose-400 text-xs mt-1 ml-1">{errors.familyName.message as string}</p>}
                   </div>
 
-                  {/* Phone */}
-                  <div className="flex flex-col sm:flex-row mb-[15px] sm:items-center gap-2 md:gap-0">
-                    <label className="sm:w-[200px] font-semibold">
-                      Phone <span className="text-[#c41a1f]">*</span>
-                    </label>
-                    <div className="flex-1">
-                      <input
-                        {...register("phone")}
-                        type="text"
-                        className={`w-full sm:w-[300px] p-2 border ${errors.phone ? "border-[#c41a1f]" : "border-[#aaa]"} rounded-sm focus:outline-none focus:ring-1 focus:ring-[#1b3564]`}
-                      />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-sm font-bold text-gray-300 ml-1">Date of Birth <span className="text-blue-500">*</span></label>
+                      <div className="relative group">
+                        <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-blue-400 transition-colors" size={20} />
+                        <input
+                          {...register("dateOfBirth")}
+                          type="date"
+                          className={`w-full bg-white/5 border ${errors.dateOfBirth ? "border-rose-500/50" : "border-white/10"} rounded-2xl py-4 pl-12 pr-4 text-white outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all`}
+                        />
+                      </div>
                     </div>
-                  </div>
-
-                  {/* Mobile Phone */}
-                  <div className="flex flex-col sm:flex-row mb-[15px] sm:items-center gap-2 md:gap-0">
-                    <label className="sm:w-[200px] font-semibold">
-                      Mobile phone
-                    </label>
-                    <div className="flex-1">
-                      <input
-                        {...register("mobilePhone")}
-                        type="text"
-                        className="w-full sm:w-[300px] p-2 border border-[#aaa] rounded-sm focus:outline-none focus:ring-1 focus:ring-[#1b3564]"
-                      />
+                    <div className="space-y-2">
+                      <label className="text-sm font-bold text-gray-300 ml-1">Phone Number <span className="text-blue-500">*</span></label>
+                      <div className="relative group">
+                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-blue-400 transition-colors" size={20} />
+                        <input
+                          {...register("phone")}
+                          type="text"
+                          placeholder="+880..."
+                          className={`w-full bg-white/5 border ${errors.phone ? "border-rose-500/50" : "border-white/10"} rounded-2xl py-4 pl-12 pr-4 text-white outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all`}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               )}
 
               {step === 2 && (
-                <div className="flex flex-col gap-[15px]">
-                  <p className="mb-5 text-[#555]">
-                    Provide your organisation details.
-                  </p>
-
-                  {/* Organisation */}
-                  <div className="flex mb-[15px] items-center">
-                    <label className="w-[200px] font-semibold">
-                      Organisation <span className="text-[#c41a1f]">*</span>
-                    </label>
-                    <div className="flex-1">
+                <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-300 ml-1">Organisation Account Name <span className="text-blue-500">*</span></label>
+                    <div className="relative group">
+                      <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-blue-400 transition-colors" size={20} />
                       <input
                         {...register("companyName")}
                         type="text"
-                        className={`w-[300px] p-2 border ${errors.companyName ? "border-[#c41a1f]" : "border-[#aaa]"} rounded-sm focus:outline-none focus:ring-1 focus:ring-[#1b3564]`}
+                        placeholder="Company Name"
+                        className={`w-full bg-white/5 border ${errors.companyName ? "border-rose-500/50" : "border-white/10"} rounded-2xl py-4 pl-12 pr-4 text-white outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all`}
                       />
                     </div>
                   </div>
 
-                  {/* Address */}
-                  <div className="flex flex-col sm:flex-row mb-[15px] items-start gap-2 sm:gap-0">
-                    <label className="sm:w-[200px] font-semibold sm:mt-2">
-                      Address <span className="text-[#c41a1f]">*</span>
-                    </label>
-                    <div className="flex-1 w-full flex flex-col gap-[10px]">
+                  <div className="space-y-4">
+                    <label className="text-sm font-bold text-gray-300 ml-1">Organisation Address</label>
+                    <div className="relative group">
+                      <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-blue-400 transition-colors" size={20} />
                       <input
                         {...register("streetAddress")}
                         placeholder="Street Address"
-                        className={`w-full sm:w-[350px] p-2 border ${errors.streetAddress ? "border-[#c41a1f]" : "border-[#aaa]"} rounded-sm focus:outline-none focus:ring-1 focus:ring-[#1b3564]`}
+                        className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all"
                       />
-                      <div className="flex flex-col sm:flex-row gap-[10px]">
-                        <input
-                          {...register("city")}
-                          placeholder="Suburb/Town"
-                          className={`w-full sm:w-[170px] p-2 border ${errors.city ? "border-[#c41a1f]" : "border-[#aaa]"} rounded-sm focus:outline-none focus:ring-1 focus:ring-[#1b3564]`}
-                        />
-                        <input
-                          {...register("stateProvince")}
-                          placeholder="State"
-                          className={`w-full sm:w-[170px] p-2 border ${errors.stateProvince ? "border-[#c41a1f]" : "border-[#aaa]"} rounded-sm focus:outline-none focus:ring-1 focus:ring-[#1b3564]`}
-                        />
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-[10px]">
-                        <input
-                          {...register("zipPostalCode")}
-                          placeholder="Postcode/Zip"
-                          className={`w-full sm:w-[170px] p-2 border ${errors.zipPostalCode ? "border-[#c41a1f]" : "border-[#aaa]"} rounded-sm focus:outline-none focus:ring-1 focus:ring-[#1b3564]`}
-                        />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <input
+                        {...register("city")}
+                        placeholder="City"
+                        className="bg-white/5 border border-white/10 rounded-2xl py-4 px-4 text-white outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all"
+                      />
+                      <input
+                        {...register("stateProvince")}
+                        placeholder="State/Province"
+                        className="bg-white/5 border border-white/10 rounded-2xl py-4 px-4 text-white outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <input
+                        {...register("zipPostalCode")}
+                        placeholder="Zip/Postcode"
+                        className="bg-white/5 border border-white/10 rounded-2xl py-4 px-4 text-white outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all"
+                      />
+                      <div className="relative group">
+                        <Flag className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-blue-400 transition-colors" size={20} />
                         <input
                           {...register("country")}
                           placeholder="Country"
-                          className={`w-full sm:w-[170px] p-2 border ${errors.country ? "border-[#c41a1f]" : "border-[#aaa]"} rounded-sm focus:outline-none focus:ring-1 focus:ring-[#1b3564]`}
+                          className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all"
                         />
                       </div>
                     </div>
                   </div>
 
-                  {/* License Number */}
-                  <div className="flex mb-[15px] items-center">
-                    <label className="w-[200px] font-semibold">
-                      License Number <span className="text-[#c41a1f]">*</span>
-                    </label>
-                    <div className="flex-1">
-                      <input
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t border-white/5">
+                    <div className="space-y-2">
+                       <label className="text-sm font-bold text-gray-300 ml-1">License Number <span className="text-blue-500">*</span></label>
+                       <input
                         {...register("licenseNumber")}
-                        type="text"
-                        className={`w-[300px] p-2 border ${errors.licenseNumber ? "border-[#c41a1f]" : "border-[#aaa]"} rounded-sm focus:outline-none focus:ring-1 focus:ring-[#1b3564]`}
-                        placeholder="Agent License Number"
+                        placeholder="Agent License"
+                        className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-4 text-white outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all"
                       />
                     </div>
-                  </div>
-
-                  {/* MARN */}
-                  <div className="flex mb-[15px] items-center">
-                    <label className="w-[200px] font-semibold">MARN</label>
-                    <div className="flex-1">
-                      <input
+                    <div className="space-y-2">
+                       <label className="text-sm font-bold text-gray-300 ml-1">MARN (Optional)</label>
+                       <input
                         {...register("marn")}
-                        type="text"
-                        className="w-[300px] p-2 border border-[#aaa] rounded-sm focus:outline-none focus:ring-1 focus:ring-[#1b3564]"
-                        placeholder="Registration Number (Optional)"
+                        placeholder="Registration No"
+                        className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-4 text-white outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all"
                       />
                     </div>
                   </div>
                 </div>
               )}
-              {step === 3 && (
-                <div className="flex flex-col gap-[15px]">
-                  <p className="mb-5 text-[#555]">
-                    Provide account security and secret questions.
-                  </p>
 
-                  {/* Email */}
-                  <div className="flex mb-[15px] items-center">
-                    <label className="w-[200px] font-semibold">
-                      Email address <span className="text-[#c41a1f]">*</span>
-                    </label>
-                    <div className="flex-1">
+              {step === 3 && (
+                <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
+                   <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-300 ml-1">Email address <span className="text-blue-500">*</span></label>
+                    <div className="relative group">
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-blue-400 transition-colors" size={20} />
                       <input
                         {...register("email")}
                         type="email"
-                        className={`w-[300px] p-2 border ${errors.email ? "border-[#c41a1f]" : "border-[#aaa]"} rounded-sm focus:outline-none focus:ring-1 focus:ring-[#1b3564]`}
+                        placeholder="agent@example.com"
+                        className={`w-full bg-white/5 border ${errors.email ? "border-rose-500/50" : "border-white/10"} rounded-2xl py-4 pl-12 pr-4 text-white outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all`}
                       />
                     </div>
                   </div>
 
-                  {/* Password */}
-                  <div className="flex mb-[15px] items-center">
-                    <label className="w-[200px] font-semibold">
-                      Password <span className="text-[#c41a1f]">*</span>
-                    </label>
-                    <div className="flex-1">
+                  <div className="space-y-2 pb-6 border-b border-white/5">
+                    <label className="text-sm font-bold text-gray-300 ml-1">Account Password <span className="text-blue-500">*</span></label>
+                    <div className="relative group">
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-blue-400 transition-colors" size={20} />
                       <input
                         {...register("password")}
                         type="password"
-                        className={`w-[300px] p-2 border ${errors.password ? "border-[#c41a1f]" : "border-[#aaa]"} rounded-sm focus:outline-none focus:ring-1 focus:ring-[#1b3564]`}
+                        placeholder="••••••••"
+                        className={`w-full bg-white/5 border ${errors.password ? "border-rose-500/50" : "border-white/10"} rounded-2xl py-4 pl-12 pr-4 text-white outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all`}
                       />
                     </div>
                   </div>
 
                   {/* Secret Questions */}
-                  <div className="mt-[10px] border-t border-[#eee] pt-5">
-                    <p className="font-bold mb-[15px]">Secret Questions</p>
-
-                    {/* Q1 */}
-                    <div className="mb-5">
-                      <div className="flex mb-2 items-center">
-                        <label className="w-[200px] font-semibold">
-                          Question 1 *
-                        </label>
+                  <div className="space-y-6">
+                    <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                       <ShieldCheck className="text-blue-500" size={20} /> Secret Questions
+                    </h3>
+                    
+                    {[1, 2, 3].map((num) => (
+                      <div key={num} className="space-y-4 p-4 rounded-3xl bg-white/5 border border-white/5">
                         <select
-                          {...register("q1")}
-                          className={`w-[300px] p-2 border ${errors.q1 ? "border-[#c41a1f]" : "border-[#aaa]"} focus:outline-none focus:ring-1 focus:ring-[#1b3564]`}
+                          {...register(`q${num}` as any)}
+                          className="w-full bg-transparent border-b border-white/10 py-2 text-sm text-gray-300 outline-none focus:border-blue-500 transition-colors appearance-none"
                         >
-                          <option value="What is your favourite movie?">
-                            What is your favourite movie?
-                          </option>
-                          <option value="What was your first pet's name?">
-                            What was your first pet&apos;s name?
-                          </option>
-                          <option value="In what city were you born?">
-                            In what city were you born?
-                          </option>
+                          {num === 1 && (
+                            <>
+                              <option value="What is your favourite movie?" className="bg-[#040d1a]">Favourite Movie</option>
+                              <option value="What was your first pet's name?" className="bg-[#040d1a]">First Pet&apos;s Name</option>
+                            </>
+                          )}
+                          {num === 2 && (
+                            <>
+                              <option value="What is the name of your favourite teacher?" className="bg-[#040d1a]">Favourite Teacher</option>
+                              <option value="What is your mother's maiden name?" className="bg-[#040d1a]">Mother&apos;s Maiden Name</option>
+                            </>
+                          )}
+                          {num === 3 && (
+                            <>
+                              <option value="Name your favourite holiday destination." className="bg-[#040d1a]">Favourite Holiday</option>
+                              <option value="What is your favourite food?" className="bg-[#040d1a]">Favourite Food</option>
+                            </>
+                          )}
                         </select>
-                      </div>
-                      <div className="flex items-center">
-                        <label className="w-[200px] font-semibold">
-                          Answer 1 *
-                        </label>
                         <input
-                          {...register("a1")}
-                          type="text"
-                          className={`w-[300px] p-2 border ${errors.a1 ? "border-[#c41a1f]" : "border-[#aaa]"} focus:outline-none focus:ring-1 focus:ring-[#1b3564]`}
+                          {...register(`a${num}` as any)}
+                          placeholder="Your Answer"
+                          className="w-full bg-transparent text-white text-sm outline-none focus:text-blue-400 transition-colors"
                         />
                       </div>
-                    </div>
-
-                    {/* Q2 */}
-                    <div className="mb-5">
-                      <div className="flex mb-2 items-center">
-                        <label className="w-[200px] font-semibold">
-                          Question 2 *
-                        </label>
-                        <select
-                          {...register("q2")}
-                          className={`w-[300px] p-2 border ${errors.q2 ? "border-[#c41a1f]" : "border-[#aaa]"} focus:outline-none focus:ring-1 focus:ring-[#1b3564]`}
-                        >
-                          <option value="What is the name of your favourite teacher?">
-                            What is the name of your favourite teacher?
-                          </option>
-                          <option value="What is your mother's maiden name?">
-                            What is your mother&apos;s maiden name?
-                          </option>
-                        </select>
-                      </div>
-                      <div className="flex items-center">
-                        <label className="w-[200px] font-semibold">
-                          Answer 2 *
-                        </label>
-                        <input
-                          {...register("a2")}
-                          type="text"
-                          className={`w-[300px] p-2 border ${errors.a2 ? "border-[#c41a1f]" : "border-[#aaa]"} focus:outline-none focus:ring-1 focus:ring-[#1b3564]`}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Q3 */}
-                    <div className="mb-5">
-                      <div className="flex mb-2 items-center">
-                        <label className="w-[200px] font-semibold">
-                          Question 3 *
-                        </label>
-                        <select
-                          {...register("q3")}
-                          className={`w-[300px] p-2 border ${errors.q3 ? "border-[#c41a1f]" : "border-[#aaa]"} focus:outline-none focus:ring-1 focus:ring-[#1b3564]`}
-                        >
-                          <option value="Name your favourite holiday destination.">
-                            Name your favourite holiday destination.
-                          </option>
-                          <option value="What is your favourite food?">
-                            What is your favourite food?
-                          </option>
-                        </select>
-                      </div>
-                      <div className="flex items-center">
-                        <label className="w-[200px] font-semibold">
-                          Answer 3 *
-                        </label>
-                        <input
-                          {...register("a3")}
-                          type="text"
-                          className={`w-[300px] p-2 border ${errors.a3 ? "border-[#c41a1f]" : "border-[#aaa]"} focus:outline-none focus:ring-1 focus:ring-[#1b3564]`}
-                        />
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               )}
-            </div>
 
-            {/* Button Bar */}
-            <div className="bg-[#e5e5e5] border-t border-[#ccc] p-[15px] px-[30px] flex justify-between">
-              {step === 1 ? (
-                <button
-                  type="button"
-                  onClick={() => router.push("/login")}
-                  className="py-[6px] px-5 border border-[#777] bg-[#eee] cursor-pointer text-[13px] hover:bg-[#e0e0e0]"
-                >
-                  Cancel
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={prevStep}
-                  className="py-[6px] px-5 border border-[#777] bg-[#eee] cursor-pointer text-[13px] hover:bg-[#e0e0e0]"
-                >
-                  Previous
-                </button>
-              )}
+              <div className="mt-12 flex items-center justify-between gap-4">
+                {step > 1 ? (
+                  <button
+                    type="button"
+                    onClick={prevStep}
+                    className="flex-1 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold py-4 rounded-2xl transition flex items-center justify-center gap-2"
+                  >
+                    <ChevronLeft size={20} /> Previous
+                  </button>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="flex-1 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold py-4 rounded-2xl transition flex items-center justify-center text-center"
+                  >
+                    Cancel
+                  </Link>
+                )}
 
-              {step < 3 ? (
-                <button
-                  type="button"
-                  onClick={nextStep}
-                  className="py-[6px] px-[25px] border border-[#1b3564] bg-[#1b3564] text-white font-bold cursor-pointer text-[13px] hover:opacity-90"
-                >
-                  Continue
-                </button>
-              ) : (
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className={`py-[6px] px-[30px] border border-[#1b3564] ${isLoading ? "bg-[#aaa] cursor-not-allowed" : "bg-[#1b3564] cursor-pointer"} text-white font-bold text-[13px] hover:opacity-90`}
-                >
-                  {isLoading ? "Creating Account..." : "Create Account"}
-                </button>
-              )}
-            </div>
-          </form>
-        </div>
-
-        {/* Footer Section */}
-        <div className="mt-10 text-center">
-          <hr className="border-none border-t border-dotted border-[#777] mb-[15px]" />
-          <div className="text-[11px] text-[#555] flex justify-center gap-[10px]">
-            <Link
-              href="/legal#accessibility"
-              className="text-[#1b3564] hover:underline"
-            >
-              Accessibility
-            </Link>
-            <span>|</span>
-            <Link
-              href="/legal#copyright"
-              className="text-[#1b3564] hover:underline"
-            >
-              Copyright
-            </Link>
-            <span>|</span>
-            <Link
-              href="/legal#disclaimer"
-              className="text-[#1b3564] hover:underline"
-            >
-              Disclaimer
-            </Link>
-            <span>|</span>
-            <Link
-              href="/legal#privacy"
-              className="text-[#1b3564] hover:underline"
-            >
-              Privacy
-            </Link>
-            <span>|</span>
-            <Link
-              href="/legal#security"
-              className="text-[#1b3564] hover:underline"
-            >
-              Security
-            </Link>
+                {step < 3 ? (
+                  <button
+                    type="button"
+                    onClick={nextStep}
+                    className="flex-[2] bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl transition shadow-xl shadow-blue-600/20 flex items-center justify-center gap-2 group"
+                  >
+                    Continue <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className={`flex-[2] bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl transition shadow-xl shadow-blue-600/20 flex items-center justify-center gap-2 group ${isLoading ? "opacity-70 cursor-not-allowed" : ""}`}
+                  >
+                    {isLoading ? "Creating Account..." : (
+                      <>
+                        Create Account <Check size={20} />
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
+            </form>
           </div>
         </div>
       </div>
+
+      {/* Simplified Footer */}
+      <footer className="py-8 px-6 border-t border-white/5 relative z-20">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.2em] font-bold text-gray-500">
+          <div className="flex flex-wrap justify-center gap-6">
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
+            <Link href="/legal" className="hover:text-white transition-colors">Legal</Link>
+            <Link href="/security" className="hover:text-white transition-colors">Security</Link>
+          </div>
+          <div>
+            &copy; {new Date().getFullYear()} {siteSettings.brandName}
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
