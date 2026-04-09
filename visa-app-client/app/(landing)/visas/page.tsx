@@ -41,7 +41,8 @@ export default function Page() {
           <section id="information" className="scroll-mt-6">
             <h2 className="text-2xl font-bold text-[#2150a0] mb-4">Visa Information</h2>
             <p className="text-gray-700 leading-relaxed">
-              Explore the different visa options available to visit, work, study or live. You can find the right visa for your needs based on your circumstances and intentions.
+              Explore different visa options for visiting, working, studying, or living abroad. 
+              Find the right visa based on your individual needs and situation.
             </p>
           </section>
 
@@ -57,14 +58,16 @@ export default function Page() {
           <section id="health" className="scroll-mt-6">
             <h2 className="text-2xl font-bold text-[#2150a0] mb-4">Health Requirements</h2>
             <p className="text-gray-700 leading-relaxed">
-              To travel or migrate, you might need to meet our health requirements depending on the visa you apply for. We might ask you to attend health examinations before we can grant your visa.
+              Depending on the visa you apply for, you may need to meet certain health requirements. 
+              We may ask you to complete health examinations before your visa is granted.
             </p>
           </section>
 
           <section id="pricing" className="scroll-mt-6">
             <h2 className="text-2xl font-bold text-[#2150a0] mb-4">Visa Pricing Estimator</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              To find out the cost of your specific visa, please check the specific category or use the Pricing Estimator tool online. Costs are subject to change.
+              To find out the cost of your specific visa, please check the visa category or use our 
+              online Pricing Estimator tool. Please note that costs are subject to change.
             </p>
             <div className="bg-gray-100 p-4 border border-gray-300 rounded">
               <p className="text-[#00264d] font-semibold">Base application charge: Refer to individual visa pages for exact fees.</p>

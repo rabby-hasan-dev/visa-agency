@@ -31,15 +31,15 @@ export default function AboutPage() {
             Our Story & Mission
           </div>
           <h1 className="text-5xl lg:text-7xl font-extrabold text-white leading-[1.1] mb-8">
-            Empowering Your <br />
+            Helping You Achieve Your <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">
-              Global Ambitions
+              Global Goals
             </span>
           </h1>
           <p className="text-xl text-gray-400 mb-10 leading-relaxed max-w-2xl mx-auto">
-            Elite Visa Hub is Bangladesh&apos;s premier immigration agency, dedicated to bridging 
-            local talent with global opportunities through expert consultancy 
-            and transparent visa solutions.
+            Elite Visa Hub is a leading immigration agency in Bangladesh. We help people 
+            find global opportunities through expert advice and straightforward 
+            visa solutions.
           </p>
         </div>
       </section>
@@ -50,17 +50,17 @@ export default function AboutPage() {
           {[
             {
               title: "Transparency",
-              desc: "We believe in honest, clear communication. No hidden fees, no unrealistic promises—just factual guidance.",
+              desc: "We believe in honest and clear communication. With us, there are no hidden fees or unrealistic promises—only reliable guidance based on facts.",
               icon: Target
             },
             {
               title: "Expertise",
-              desc: "Our team consists of seasoned professionals with specialized knowledge in Australian and international migration law.",
+              desc: "Our team consists of experienced professionals with specialized knowledge in Australian and international migration laws.",
               icon: Award
             },
             {
-              title: "Client-Centric",
-              desc: "Every journey is unique. We tailor our strategies to meet your specific goals and circumstances.",
+              title: "Client-Focused",
+              desc: "Every journey is unique. We tailor our services to help you reach your specific goals and handle your individual situation.",
               icon: Users
             }
           ].map((value, i) => (
@@ -96,14 +96,14 @@ export default function AboutPage() {
             <h3 className="text-4xl lg:text-5xl font-bold text-white mb-8">Decades of Combined Experience</h3>
             <div className="space-y-6 text-gray-400 leading-relaxed">
               <p>
-                Founded in Dhaka, Elite Visa Hub started with a simple vision: to make international migration accessible 
-                and secure for everyone. Over the years, we have grown from a small consultancy into a leading 
-                Australian immigration licensed partner.
+                Founded in Dhaka, Elite Visa Hub started with a simple goal: to make moving abroad 
+                easier and safer for everyone. Over the years, we have grown from a small consultancy 
+                into a trusted licensed partner for Australian immigration.
               </p>
               <p>
-                Our team has helped thousands of families, students, and professionals realize their dreams of living 
-                and working abroad. We take pride in our rigorous attention to detail and our deep understanding 
-                of evolving immigration policies.
+                Our team has helped thousands of families, students, and professionals achieve 
+                their dreams of living and working abroad. We focus on every detail and stay 
+                up-to-date with changing immigration rules.
               </p>
               <ul className="space-y-4 pt-4">
                 {[
@@ -126,10 +126,11 @@ export default function AboutPage() {
       {/* ─── Global Presence ────────────────────────────────────────── */}
       <section className="py-24 max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
-          <h3 className="text-4xl font-bold text-white mb-4">Our Global Footprint</h3>
+          <h3 className="text-4xl font-bold text-white mb-4">Our Global Network</h3>
           <p className="text-gray-400 max-w-2xl mx-auto">
-            While our heart is in Dhaka, our reach is global. We maintain strong networks across Australia, 
-            the UK, and Canada to ensure our clients have the best support abroad.
+            While our headquarters is in Dhaka, we have a global reach. We work with strong 
+            networks across Australia, the UK, and Canada to provide our clients with the best 
+            support abroad.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

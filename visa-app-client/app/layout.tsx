@@ -3,20 +3,20 @@ import "./globals.css";
 import Providers from "../redux/provider";
 
 export const metadata: Metadata = {
-  title: "Immigration and Citizenship",
+  title: "Elite Visa Hub | Expert Immigration & Visa Services",
   description:
-    "Official portal for immigration and citizenship services. Find a visa, apply for citizenship, or login to manage your applications.",
+    "Elite Visa Hub is a leading immigration agency in Bangladesh. We provide expert guidance and visa solutions for Australia, USA, UK, Canada, and more.",
   keywords: [
-    "ImmiAccount",
-    "visa",
-    "immigration",
-    "citizenship",
-    "visa application",
+    "Elite Visa Hub",
+    "visa processing",
+    "Australian immigration",
+    "Bangladesh visa agency",
+    "migration services",
   ],
   openGraph: {
-    title: "Immigration and Citizenship Services",
+    title: "Elite Visa Hub - Your Trusted Migration Partner",
     description:
-      "Access online services to apply for a visa, citizenship, or check your current visa conditions.",
+      "Helping you achieve your global goals with expert immigration and visa consultancy from Dhaka.",
     type: "website",
   },
 };

@@ -50,18 +50,18 @@ export default function Home() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
               </span>
-              Australian Immigration Licensed Partner
+              Licensed Australian Immigration Partner
             </div>
             <h1 className="text-5xl lg:text-7xl font-extrabold text-white leading-[1.1] mb-8">
-              Navigate Your Global <br />
+              Your Trusted Partner <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">
-                Migration Journey
+                for Global Migration
               </span>
             </h1>
             <p className="text-xl text-gray-400 mb-10 leading-relaxed max-w-2xl">
-              From Dhaka to the world. We specialize in comprehensive visa processing, 
-              expert Australian immigration services, and transparent international fee management 
-              for individuals and businesses.
+              We provide expert visa processing and Australian immigration services. 
+              Based in Dhaka, we help individuals and businesses with transparent 
+              fee management and global migration support.
             </p>
             <div className="flex flex-col sm:flex-row gap-5">
               <Link
@@ -119,10 +119,10 @@ export default function Home() {
       <section id="services" className="py-24 max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-sm font-bold text-blue-500 uppercase tracking-[0.3em] mb-4">Our Expertise</h2>
-          <h3 className="text-4xl lg:text-5xl font-bold text-white mb-6">Comprehensive Visa Solutions</h3>
+          <h3 className="text-4xl lg:text-5xl font-bold text-white mb-6">Complete Visa Solutions</h3>
           <p className="text-gray-400 text-lg">
-            We provide end-to-end support for international migration, ensuring a smooth transition 
-            from eligibility assessment to final approval.
+            We offer full support for your immigration needs, helping you every step 
+            of the way from checking your eligibility to final approval.
           </p>
         </div>
 
@@ -130,37 +130,37 @@ export default function Home() {
           {[
             {
               title: "International Visa Processing",
-              desc: "Complete documentation and application support for USA, UK, Canada, and Schengen visas with a high success rate.",
+              desc: "We provide full support for USA, UK, Canada, and Schengen visa applications with a focus on accuracy.",
               icon: Globe,
               color: "blue",
             },
             {
-              title: "Australian Immigration Specialist",
-              desc: "Expert guidance on skilled migration, partner visas, and residency pathways as a licensed agency partner.",
+              title: "Australian Immigration Services",
+              desc: "As a licensed partner, we offer expert assistance with skilled migration, partner visas, and residency.",
               icon: ShieldCheck,
               color: "indigo",
             },
             {
-              title: "Fee & Currency Management",
-              desc: "Dynamic fee calculation with multi-currency support. Secure international payments and transparent deductions.",
+              title: "Transparent Fee Management",
+              desc: "Manage your fees easily with multi-currency support and real-time exchange rates. Payments are safe and clear.",
               icon: CreditCard,
               color: "cyan",
             },
             {
               title: "Corporate Migration",
-              desc: "Helping Bangladeshi businesses scale globally with dedicated visa solutions for employees and executives.",
+              desc: "We help Bangladeshi businesses expand globally by providing dedicated visa solutions for their staff.",
               icon: Briefcase,
               color: "purple",
             },
             {
               title: "Student Consultancy",
-              desc: "Unlock educational opportunities in top universities worldwide with our specialized student visa division.",
+              desc: "Our team helps students secure visas for top universities worldwide, opening up global opportunities.",
               icon: Users,
               color: "rose",
             },
             {
-              title: "Digital Tracking & Portal",
-              desc: "Monitor your application status in real-time through our secure, modernized digital ImmiAccount platform.",
+              title: "Real-Time Tracking",
+              desc: "Track your application status anytime through our secure and easy-to-use digital portal.",
               icon: TrendingUp,
               color: "emerald",
             },
@@ -217,10 +217,10 @@ export default function Home() {
           </div>
           <div>
              <h2 className="text-sm font-bold text-blue-500 uppercase tracking-[0.3em] mb-4">Pricing & Transparency</h2>
-             <h3 className="text-4xl lg:text-5xl font-bold text-white mb-8">Advanced International Fee Management</h3>
+             <h3 className="text-4xl lg:text-5xl font-bold text-white mb-8">Transparent International Fee Management</h3>
              <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-               No more manual currency conversions or hidden charges. Our system automatically handles real-time 
-               currency exchange rates for visa fees across AUD, USD, and BDT.
+               We simplify currency conversion with no hidden charges. Our system automatically 
+               uses real-time exchange rates for visa fees in AUD, USD, and BDT.
              </p>
              <ul className="space-y-5">
                {[
@@ -248,11 +248,10 @@ export default function Home() {
              <Globe size={400} />
           </div>
           <div className="relative z-10 max-w-2xl">
-            <h3 className="text-4xl lg:text-5xl font-bold text-white mb-6">Expertise Rooted in Bangladesh, Reaching Worldwide</h3>
+            <h3 className="text-4xl lg:text-5xl font-bold text-white mb-6">Local Expertise with Global Reach</h3>
             <p className="text-blue-100 text-lg mb-10 leading-relaxed">
-              Based in Dhaka, we bridge the gap between local aspirations and international opportunities. 
-              Our team understands the unique challenges of Bangladeshi applicants and provides tailored solutions 
-              that meet global standards.
+              Based in Dhaka, we help Bangladeshi applicants navigate international opportunities. 
+              Our team provides tailored solutions that meet global standards and address local needs.
             </p>
             <div className="flex flex-wrap gap-8">
                <div className="flex items-center gap-3">
@@ -286,12 +285,12 @@ export default function Home() {
           </div>
           <div>
             <h4 className="font-bold text-amber-500 text-lg mb-2 flex items-center gap-2">
-              Important: Stay Protected
+              Stay Protected from Fraud
             </h4>
             <p className="text-gray-400 text-sm leading-relaxed">
-              We never ask for fees via personal bank accounts or cash. All payments must be processed 
-              online through our official {siteSettings.siteName} portal using secure bank channels. 
-              Only authorized {siteSettings.departmentName} staff will contact you via official channels.
+              Please note that we never request payments through personal bank accounts or in cash. 
+              All fees must be paid through our official {siteSettings.siteName} portal. 
+              Only authorized {siteSettings.departmentName} staff will contact you using our official channels.
             </p>
           </div>
         </div>

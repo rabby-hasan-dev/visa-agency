@@ -33,15 +33,15 @@ export default function ImmigrationPage() {
               Australian Migration Specialist
             </div>
             <h1 className="text-5xl lg:text-7xl font-extrabold text-white leading-[1.1] mb-8">
-              Expert Guidance for your <br />
+              Expert Help for Your <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">
                 Immigration Journey
               </span>
             </h1>
             <p className="text-xl text-gray-400 mb-10 leading-relaxed max-w-2xl">
-              We provide professional immigration services tailored to your needs. 
-              Our licensed experts in Dhaka specialize in Australian visas, 
-              skilled migration, and corporate solutions.
+              We offer professional immigration services tailored to you. 
+              Our experts in Dhaka are licensed specialists in Australian visas, 
+              skilled migration, and solutions for businesses.
             </p>
           </div>
         </div>
@@ -125,15 +125,15 @@ export default function ImmigrationPage() {
               {[
                 {
                   title: "Licensed Professionals",
-                  desc: "Our team consists of experts with deep knowledge of Australian migration law and procedures."
+                  desc: "Our team consists of experts with deep knowledge of Australian immigration laws and procedures."
                 },
                 {
                   title: "Dhaka-Based Support",
-                  desc: "We provide local accessibility with global standards, understanding the specific needs of Bangladeshi applicants."
+                  desc: "We provide local access with global standards, understanding the specific needs of Bangladeshi applicants."
                 },
                 {
                   title: "End-to-End Assistance",
-                  desc: "From initial assessment to visa grant and post-arrival support, we are with you at every step."
+                  desc: "From your first assessment to getting your visa, we are with you every step of the way."
                 }
               ].map((item, i) => (
                 <div key={i} className="flex gap-6">
@@ -169,9 +169,9 @@ export default function ImmigrationPage() {
       <section className="py-24 max-w-7xl mx-auto px-6">
         <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-[3rem] p-12 lg:p-20 text-center relative overflow-hidden">
           <div className="relative z-10 max-w-2xl mx-auto">
-            <h3 className="text-4xl lg:text-5xl font-bold text-white mb-6">Ready to Start Your Australian Chapter?</h3>
+            <h3 className="text-4xl lg:text-5xl font-bold text-white mb-6">Ready to Start Your Life in Australia?</h3>
             <p className="text-blue-100 text-lg mb-10 leading-relaxed">
-              Book a comprehensive consultation with our licensed experts today and discover your best pathway to Australia.
+              Book a consultation with our licensed experts today and find the best pathway for you to move to Australia.
             </p>
             <div className="flex flex-col sm:flex-row gap-5 justify-center">
               <Link
