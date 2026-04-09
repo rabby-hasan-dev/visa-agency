@@ -1,7 +1,6 @@
 import { UseFormReturn } from "react-hook-form";
 import * as schemas from "@/schemas/profile.schema";
-import { InputRow } from "./InputRow";
-
+import { Mail, ArrowRight } from "lucide-react";
 import { TUser } from "@/types/user";
 
 interface EmailAddressTabProps {
@@ -30,125 +29,123 @@ export const EmailAddressTab = ({
   setActiveTab,
 }: EmailAddressTabProps) => {
   return (
-    <form
-      onSubmit={emailForm.handleSubmit(onSubmit)}
-      className="bg-white border border-gray-300 shadow-sm min-h-[500px] flex flex-col"
-    >
-      <div className="bg-[#1b3564] text-white font-bold text-[13px] px-3 py-1.5">
-        Update Email Address
-      </div>
-      <div className="p-5 flex-1">
-        <h2 className="text-[#1b3564] text-[20px] font-normal mb-3 mt-0">
-          Update email address for account notifications
-        </h2>
-        {!isEmailVerifying ? (
-          <>
-            <p className="mb-4 text-[13px] text-black">
-              This email address is used for notifications about your account,
-              such as password resets. To change the email address used to
-              communicate about a visa or citizenship application, select
-              &apos;Update us&apos; on the application details page.
-            </p>
+    <div className="max-w-xl space-y-4">
+      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <div className="px-5 py-4 border-b border-gray-100">
+          <h2 className="text-sm font-semibold text-gray-800">
+            {isEmailVerifying ? "Verify New Email" : "Change Email Address"}
+          </h2>
+          <p className="text-xs text-gray-400 mt-0.5">
+            {isEmailVerifying
+              ? `Enter the 6-digit code sent to ${pendingEmail}`
+              : "This email is used for account notifications and password resets"}
+          </p>
+        </div>
 
-            <div className="flex flex-col sm:flex-row mb-8 mt-2">
-              <div className="w-full sm:w-[250px] text-[13px] font-bold mb-1 sm:mb-0">
-                Current email address
+        <div className="px-5 py-5">
+          {!isEmailVerifying ? (
+            <form onSubmit={emailForm.handleSubmit(onSubmit)} className="space-y-4">
+              {/* Current Email */}
+              <div>
+                <p className="text-xs text-gray-400 mb-1">Current email</p>
+                <p className="text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5">
+                  {user?.email || "—"}
+                </p>
               </div>
-              <div className="text-[13px]">
-                {user?.email || "ghave763@gmail.com"}
-              </div>
-            </div>
 
-            <p className="mb-6 text-[13px] text-black">
-              Enter the new email address to be used for account notifications -
-              such as password resets.
-            </p>
-
-            <p className="mb-2 text-[13px] text-black">
-              Fields marked <span className="text-[#c41a1f]">*</span> must be
-              completed.
-            </p>
-
-            <InputRow
-              label="New email address"
-              isRequired
-              type="email"
-              registerProps={emailForm.register("email")}
-              error={emailForm.formState.errors.email?.message}
-            />
-
-            <p className="mt-8 mb-4 text-[13px] text-black">
-              A verification code will be emailed to this new address.
-            </p>
-            <p className="text-[13px] text-black">
-              Select &apos;Send verification code&apos; and enter the
-              verification code on the next screen.
-            </p>
-          </>
-        ) : (
-          <>
-            <p className="mb-4 text-[13px] text-black font-bold">
-              A verification code has been sent to:{" "}
-              <span className="text-[#1b3564]">{pendingEmail}</span>
-            </p>
-            <p className="mb-8 text-[13px] text-black">
-              Please enter the 6-digit verification code below to confirm your
-              new email address.
-            </p>
-
-            <div className="flex flex-col mb-4">
-              <div className="flex flex-col sm:flex-row sm:items-center">
-                <label className="w-full sm:w-[180px] text-[13px] text-gray-800 font-sans mb-1.5 sm:mb-0">
-                  Verification code <span className="text-[#c41a1f]">*</span>
+              {/* New Email */}
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium text-gray-700">
+                  New Email Address <span className="text-blue-500">*</span>
                 </label>
-                <div className="flex-1 flex items-center w-full sm:w-auto">
+                <div className="relative group">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors" size={15} />
                   <input
-                    type="text"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                    maxLength={6}
-                    placeholder="000000"
-                    className="border border-gray-400 px-2 py-1 w-full sm:w-[280px] text-[13px] rounded-none focus:outline-none tracking-[1em] text-center font-bold"
+                    {...emailForm.register("email")}
+                    type="email"
+                    placeholder="new@example.com"
+                    className={`w-full pl-9 pr-4 py-2.5 text-sm border rounded-lg outline-none transition-colors ${
+                      emailForm.formState.errors.email
+                        ? "border-rose-400 bg-rose-50"
+                        : "border-gray-200 focus:border-blue-400"
+                    }`}
                   />
                 </div>
+                {emailForm.formState.errors.email && (
+                  <p className="text-xs text-rose-500">{emailForm.formState.errors.email.message}</p>
+                )}
+              </div>
+
+              <p className="text-xs text-gray-500">
+                A 6-digit verification code will be sent to the new address.
+              </p>
+
+              <div className="flex justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("Summary")}
+                  className="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-2"
+                >
+                  Send Code <ArrowRight size={14} />
+                </button>
+              </div>
+            </form>
+          ) : (
+            <div className="space-y-5">
+              <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
+                <p className="text-sm text-blue-700">
+                  Code sent to <span className="font-semibold">{pendingEmail}</span>
+                </p>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium text-gray-700">
+                  Verification Code <span className="text-blue-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  maxLength={6}
+                  placeholder="000000"
+                  className="w-full py-3 text-center text-2xl font-mono tracking-[0.8rem] border border-gray-200 rounded-lg outline-none focus:border-blue-400 transition-colors"
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsEmailVerifying(false)}
+                className="text-xs text-blue-600 hover:underline"
+              >
+                Wrong email? Go back and change it
+              </button>
+
+              <div className="flex justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsEmailVerifying(false)}
+                  className="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Back
+                </button>
+                <button
+                  type="button"
+                  onClick={onVerifyEmail}
+                  className="px-5 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                >
+                  Verify & Save
+                </button>
               </div>
             </div>
-
-            <button
-              type="button"
-              onClick={() => setIsEmailVerifying(false)}
-              className="text-[#1b3564] underline text-[12px]"
-            >
-              Entered wrong email? Change it.
-            </button>
-          </>
-        )}
+          )}
+        </div>
       </div>
-
-      <div className="bg-[#e5e5e5] px-4 py-3 border-t border-gray-300 flex justify-between mt-auto">
-        <button
-          type="button"
-          onClick={() =>
-            isEmailVerifying
-              ? setIsEmailVerifying(false)
-              : setActiveTab("Summary")
-          }
-          className="bg-[#eeeeee] border border-gray-400 px-4 py-1 text-[12px] text-black hover:bg-gray-200 transition-colors"
-        >
-          Cancel
-        </button>
-        <button
-          type="button"
-          onClick={
-            isEmailVerifying
-              ? onVerifyEmail
-              : emailForm.handleSubmit(onSubmit)
-          }
-          className="bg-[#eeeeee] border border-gray-400 px-4 py-1 text-[12px] text-black hover:bg-gray-200 transition-colors shadow-sm"
-        >
-          {isEmailVerifying ? "Verify and save" : "Send verification code"}
-        </button>
-      </div>
-    </form>
+    </div>
   );
 };

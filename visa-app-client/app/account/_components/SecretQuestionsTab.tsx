@@ -1,224 +1,114 @@
 import { UseFormReturn } from "react-hook-form";
 import * as schemas from "@/schemas/profile.schema";
-import { InputRow } from "./InputRow";
+import { HelpCircle, Loader2 } from "lucide-react";
 
 interface SecretQuestionsTabProps {
   secretQuestionsForm: UseFormReturn<schemas.SecretQuestionsUpdateValues>;
   onSubmit: (data: schemas.SecretQuestionsUpdateValues) => Promise<void>;
 }
 
-export const SecretQuestionsTab = ({
-  secretQuestionsForm,
-  onSubmit,
-}: SecretQuestionsTabProps) => {
+const ALL_QUESTIONS = [
+  "What is your favourite movie?",
+  "What was your first pet's name?",
+  "In what city were you born?",
+  "What is the name of your favourite teacher?",
+  "What is your mother's maiden name?",
+  "Name your favourite holiday destination.",
+  "What is your favourite food?",
+];
+
+const Q_SETS: Record<number, string[]> = {
+  1: ["What is your favourite movie?", "What was your first pet's name?", "In what city were you born?"],
+  2: ["What is the name of your favourite teacher?", "What is your mother's maiden name?"],
+  3: ["Name your favourite holiday destination.", "What is your favourite food?"],
+};
+
+type QKey = "q1" | "q2" | "q3" | "q4" | "q5";
+type AKey = "a1" | "a2" | "a3" | "a4" | "a5";
+
+const QUESTIONS: { num: number; qKey: QKey; aKey: AKey; required: boolean; options: string[] }[] = [
+  { num: 1, qKey: "q1", aKey: "a1", required: true, options: Q_SETS[1] },
+  { num: 2, qKey: "q2", aKey: "a2", required: true, options: Q_SETS[2] },
+  { num: 3, qKey: "q3", aKey: "a3", required: true, options: Q_SETS[3] },
+  { num: 4, qKey: "q4", aKey: "a4", required: false, options: ALL_QUESTIONS },
+  { num: 5, qKey: "q5", aKey: "a5", required: false, options: ALL_QUESTIONS },
+];
+
+export const SecretQuestionsTab = ({ secretQuestionsForm, onSubmit }: SecretQuestionsTabProps) => {
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = secretQuestionsForm;
+
   return (
-    <form
-      onSubmit={secretQuestionsForm.handleSubmit(onSubmit)}
-      className="bg-white border border-gray-300 shadow-sm min-h-[500px] flex flex-col"
-    >
-      <div className="bg-[#1b3564] text-white font-bold text-[13px] px-3 py-1.5">
-        Secret Questions
-      </div>
-      <div className="p-5 flex-1">
-        <p className="mb-3 text-[13px] text-black">
-          Enter the following details to update your secret questions and select
-          &apos;Save&apos; to apply your changes:
-        </p>
-        <p className="mb-6 text-[13px] text-black">
-          Fields marked <span className="text-[#c41a1f]">*</span> must be
-          completed.
-        </p>
-
-        <div className="space-y-6">
-          {/* Question 1 */}
-          <div>
-            <div className="flex flex-col sm:flex-row sm:items-center mb-4 sm:mb-1">
-              <label className="w-full sm:w-[180px] text-[13px] text-gray-800 font-sans mb-1.5 sm:mb-0">
-                Question 1 <span className="text-[#c41a1f]">*</span>
-              </label>
-              <div className="flex-1 w-full sm:w-auto">
-                <select
-                  {...secretQuestionsForm.register("q1")}
-                  className={`border ${secretQuestionsForm.formState.errors.q1 ? "border-[#c41a1f]" : "border-gray-400"} px-1 py-1 w-full sm:w-[280px] text-[13px] rounded-none focus:outline-none`}
-                >
-                  <option value="What is your favourite movie?">
-                    What is your favourite movie?
-                  </option>
-                  <option value="What was your first pet's name?">
-                    What was your first pet&apos;s name?
-                  </option>
-                  <option value="In what city were you born?">
-                    In what city were you born?
-                  </option>
-                </select>
-              </div>
+    <div className="max-w-xl">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-gray-100 flex items-center gap-2">
+            <HelpCircle size={16} className="text-gray-400" />
+            <div>
+              <h2 className="text-sm font-semibold text-gray-800">Secret Questions</h2>
+              <p className="text-xs text-gray-400 mt-0.5">Used to verify your identity if you forget your password</p>
             </div>
-            <InputRow
-              label="Answer 1"
-              isRequired
-              registerProps={secretQuestionsForm.register("a1")}
-              error={secretQuestionsForm.formState.errors.a1?.message}
-            />
           </div>
 
-          {/* Question 2 */}
-          <div>
-            <div className="flex flex-col sm:flex-row sm:items-center mb-4 sm:mb-1">
-              <label className="w-full sm:w-[180px] text-[13px] text-gray-800 font-sans mb-1.5 sm:mb-0">
-                Question 2 <span className="text-[#c41a1f]">*</span>
-              </label>
-              <div className="flex-1 w-full sm:w-auto">
-                <select
-                  {...secretQuestionsForm.register("q2")}
-                  className={`border ${secretQuestionsForm.formState.errors.q2 ? "border-[#c41a1f]" : "border-gray-400"} px-1 py-1 w-full sm:w-[280px] text-[13px] rounded-none focus:outline-none`}
-                >
-                  <option value="What is the name of your favourite teacher?">
-                    What is the name of your favourite teacher?
-                  </option>
-                  <option value="What is your mother's maiden name?">
-                    What is your mother&apos;s maiden name?
-                  </option>
-                </select>
-              </div>
-            </div>
-            <InputRow
-              label="Answer 2"
-              isRequired
-              registerProps={secretQuestionsForm.register("a2")}
-              error={secretQuestionsForm.formState.errors.a2?.message}
-            />
-          </div>
+          <div className="divide-y divide-gray-100">
+            {QUESTIONS.map(({ num, qKey, aKey, required, options }) => (
+              <div key={num} className="px-5 py-4 space-y-3">
+                <div className="flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-[10px] font-bold shrink-0">
+                    {num}
+                  </span>
+                  <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
+                    Question {num} {required && <span className="text-blue-500 normal-case tracking-normal">*</span>}
+                    {!required && <span className="text-gray-400 normal-case tracking-normal font-normal"> (optional)</span>}
+                  </span>
+                </div>
 
-          {/* Question 3 */}
-          <div>
-            <div className="flex flex-col sm:flex-row sm:items-center mb-4 sm:mb-1">
-              <label className="w-full sm:w-[180px] text-[13px] text-gray-800 font-sans mb-1.5 sm:mb-0">
-                Question 3 <span className="text-[#c41a1f]">*</span>
-              </label>
-              <div className="flex-1 w-full sm:w-auto">
+                {/* Question select */}
                 <select
-                  {...secretQuestionsForm.register("q3")}
-                  className={`border ${secretQuestionsForm.formState.errors.q3 ? "border-[#c41a1f]" : "border-gray-400"} px-1 py-1 w-full sm:w-[280px] text-[13px] rounded-none focus:outline-none`}
+                  {...register(qKey)}
+                  className={`w-full px-3 py-2.5 text-sm border rounded-lg outline-none transition-colors ${
+                    errors[qKey] ? "border-rose-400 bg-rose-50" : "border-gray-200 focus:border-blue-400"
+                  }`}
                 >
-                  <option value="Name your favourite holiday destination.">
-                    Name your favourite holiday destination.
-                  </option>
-                  <option value="What is your favourite food?">
-                    What is your favourite food?
-                  </option>
+                  {!required && <option value="">— Select a question —</option>}
+                  {options.map(q => <option key={q} value={q}>{q}</option>)}
                 </select>
-              </div>
-            </div>
-            <InputRow
-              label="Answer 3"
-              isRequired
-              registerProps={secretQuestionsForm.register("a3")}
-              error={secretQuestionsForm.formState.errors.a3?.message}
-            />
-          </div>
 
-          {/* Question 4 */}
-          <div>
-            <div className="flex flex-col sm:flex-row sm:items-center mb-4 sm:mb-1">
-              <label className="w-full sm:w-[180px] text-[13px] text-gray-800 font-sans mb-1.5 sm:mb-0">
-                Question 4
-              </label>
-              <div className="flex-1 w-full sm:w-auto">
-                <select
-                  {...secretQuestionsForm.register("q4")}
-                  className={`border ${secretQuestionsForm.formState.errors.q4 ? "border-[#c41a1f]" : "border-gray-400"} px-1 py-1 w-full sm:w-[280px] text-[13px] rounded-none focus:outline-none`}
-                >
-                  <option value=""></option>
-                  <option value="What is your favourite movie?">
-                    What is your favourite movie?
-                  </option>
-                  <option value="What was your first pet's name?">
-                    What was your first pet&apos;s name?
-                  </option>
-                  <option value="In what city were you born?">
-                    In what city were you born?
-                  </option>
-                  <option value="What is the name of your favourite teacher?">
-                    What is the name of your favourite teacher?
-                  </option>
-                  <option value="What is your mother's maiden name?">
-                    What is your mother&apos;s maiden name?
-                  </option>
-                  <option value="Name your favourite holiday destination.">
-                    Name your favourite holiday destination.
-                  </option>
-                  <option value="What is your favourite food?">
-                    What is your favourite food?
-                  </option>
-                </select>
+                {/* Answer input */}
+                <input
+                  {...register(aKey)}
+                  placeholder="Your answer"
+                  className={`w-full px-3 py-2.5 text-sm border rounded-lg outline-none transition-colors ${
+                    errors[aKey] ? "border-rose-400 bg-rose-50" : "border-gray-200 focus:border-blue-400"
+                  }`}
+                />
+                {(errors[qKey] || errors[aKey]) && (
+                  <p className="text-xs text-rose-500">
+                    {errors[qKey]?.message || errors[aKey]?.message}
+                  </p>
+                )}
               </div>
-            </div>
-            <InputRow
-              label="Answer 4"
-              registerProps={secretQuestionsForm.register("a4")}
-              error={secretQuestionsForm.formState.errors.a4?.message}
-            />
-          </div>
-
-          {/* Question 5 */}
-          <div>
-            <div className="flex flex-col sm:flex-row sm:items-center mb-4 sm:mb-1">
-              <label className="w-full sm:w-[180px] text-[13px] text-gray-800 font-sans mb-1.5 sm:mb-0">
-                Question 5
-              </label>
-              <div className="flex-1 w-full sm:w-auto">
-                <select
-                  {...secretQuestionsForm.register("q5")}
-                  className={`border ${secretQuestionsForm.formState.errors.q5 ? "border-[#c41a1f]" : "border-gray-400"} px-1 py-1 w-full sm:w-[280px] text-[13px] rounded-none focus:outline-none`}
-                >
-                  <option value=""></option>
-                  <option value="What is your favourite movie?">
-                    What is your favourite movie?
-                  </option>
-                  <option value="What was your first pet's name?">
-                    What was your first pet&apos;s name?
-                  </option>
-                  <option value="In what city were you born?">
-                    In what city were you born?
-                  </option>
-                  <option value="What is the name of your favourite teacher?">
-                    What is the name of your favourite teacher?
-                  </option>
-                  <option value="What is your mother's maiden name?">
-                    What is your mother&apos;s maiden name?
-                  </option>
-                  <option value="Name your favourite holiday destination.">
-                    Name your favourite holiday destination.
-                  </option>
-                  <option value="What is your favourite food?">
-                    What is your favourite food?
-                  </option>
-                </select>
-              </div>
-            </div>
-            <InputRow
-              label="Answer 5"
-              registerProps={secretQuestionsForm.register("a5")}
-              error={secretQuestionsForm.formState.errors.a5?.message}
-            />
+            ))}
           </div>
         </div>
-      </div>
 
-      <div className="bg-[#e5e5e5] px-4 py-3 border-t border-gray-300 flex justify-between mt-auto">
-        <button
-          type="button"
-          className="bg-[#eeeeee] border border-gray-400 px-4 py-1 text-[12px] text-black hover:bg-gray-200 transition-colors"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className="bg-[#eeeeee] border border-gray-400 px-6 py-1 text-[12px] text-black hover:bg-gray-200 transition-colors shadow-sm"
-        >
-          Save
-        </button>
-      </div>
-    </form>
+        <div className="flex justify-end gap-3">
+          <button
+            type="button"
+            onClick={() => secretQuestionsForm.reset()}
+            className="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="flex items-center gap-2 px-5 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {isSubmitting && <Loader2 size={14} className="animate-spin" />}
+            {isSubmitting ? "Saving..." : "Save Questions"}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };

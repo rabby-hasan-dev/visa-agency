@@ -53,9 +53,9 @@ export default function ManageAccountPage() {
   const { data: siteResponse } = useGetSiteSettingsQuery({});
 
   const siteSettings = (siteResponse?.data ?? {
-    siteName: "ImmiAccount",
-    brandName: "Australian Government",
-    departmentName: "Department of Home Affairs",
+    siteName: "Elite Visa Hub",
+    brandName: "Global Passports & Visas",
+    departmentName: "Advanced Immigration Consultants",
   }) as TSiteSettings;
 
   const { data: profileResponse, isLoading: isProfileLoading } = useGetMeQuery(
@@ -430,64 +430,67 @@ export default function ManageAccountPage() {
 
   if (isProfileLoading) {
     return (
-      <div className="min-h-screen bg-[#f4f4f4] flex items-center justify-center font-sans">
-        <div className="text-[#1b3564] text-lg font-bold">
-          Loading account details...
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-2 border-blue-600/30 border-t-blue-600 rounded-full animate-spin" />
+          <p className="text-sm text-gray-500">Loading account details...</p>
         </div>
       </div>
     );
   }
 
-  return (
-    <div className="min-h-screen bg-[#f4f4f4] font-sans text-[13px] text-gray-800">
-      {/* ─── Top Utility Bar ────────────────────────────────────────────── */}
-      <div className="bg-[#1b3564] text-white flex flex-wrap justify-center sm:justify-end px-4 sm:px-5 py-1.5 sm:py-1 text-[10px] sm:text-[11px] gap-x-4 gap-y-1 tracking-wide font-light border-b border-[#2150a0]">
-        <span className="opacity-80">
-          {(user?.name || "User").toLowerCase()}
-        </span>
-        <NextLink href="/dashboard" className="text-white hover:underline">
-          Return to Dashboard
-        </NextLink>
-        <button
-          onClick={handleLogout}
-          className="text-white hover:underline bg-transparent border-none cursor-pointer p-0 font-light"
-        >
-          Logout
-        </button>
-      </div>
+  const userDisplayName = user?.name || user?.email?.split("@")[0] || "User";
+  const userInitial = userDisplayName.charAt(0).toUpperCase();
 
-      {/* ─── Header ──────────────────────────────────────────────────────── */}
-      <div className="bg-[#1b3564] min-h-[75px] py-4 sm:py-0 flex flex-col sm:flex-row items-center justify-between px-5 text-white shadow-sm gap-4">
-        <div className="flex items-center gap-2">
-          <div className="flex flex-col text-center sm:text-left">
-            <span className="font-bold text-[14px] sm:text-[15px] tracking-wide leading-tight">
-              {siteSettings.brandName}
-            </span>
-            <span className="text-[11px] sm:text-[12px] font-normal leading-tight opacity-90">
-              {siteSettings.departmentName}
-            </span>
+  return (
+    <div className="min-h-screen bg-gray-50 font-sans text-gray-800 flex flex-col">
+
+      {/* ─── Top Header ─────────────────────────────────────────────── */}
+      <header className="bg-[#0f172a] text-white px-4 sm:px-6 flex items-center justify-between h-14 border-b border-white/5 sticky top-0 z-50">
+        <div className="flex items-center gap-3">
+          <div className="w-7 h-7 bg-blue-600 rounded-md flex items-center justify-center text-xs font-bold shrink-0">
+            {userInitial}
+          </div>
+          <div className="hidden sm:block">
+            <p className="text-sm font-medium text-white capitalize">{userDisplayName}</p>
+            <p className="text-[10px] text-gray-400">{siteSettings.siteName}</p>
           </div>
         </div>
-        <div className="text-[20px] sm:text-[26px] font-normal tracking-wide text-white text-center">
-          Manage my {siteSettings.siteName}
+
+        <div className="flex items-center gap-4">
+          <NextLink
+            href="/dashboard"
+            className="text-xs text-gray-400 hover:text-white transition-colors"
+          >
+            ← Back to Dashboard
+          </NextLink>
+          <button
+            onClick={handleLogout}
+            className="text-xs text-gray-400 hover:text-rose-400 transition-colors"
+          >
+            Logout
+          </button>
         </div>
+      </header>
+
+      {/* ─── Page Title ──────────────────────────────────────────────── */}
+      <div className="bg-white border-b border-gray-200 px-4 sm:px-6 py-5">
+        <h1 className="text-lg font-bold text-gray-900">My Account</h1>
+        <p className="text-sm text-gray-500 mt-0.5">Manage your profile, security, and preferences</p>
       </div>
 
-      {/* ─── Tabs Navigation ──────────────────────────────────────────────── */}
-      <div className="bg-[#eeeeee] flex border-b border-gray-300 shadow-sm px-1 pt-1 overflow-x-auto no-scrollbar scroll-smooth">
+      {/* ─── Tabs Navigation ───────────────────────────────────────── */}
+      <div className="bg-white border-b border-gray-200 px-2 sm:px-6 overflow-x-auto">
         <div className="flex min-w-max">
           {TABS.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 border-t-[3px] border-x border-x-transparent text-[11px] sm:text-[13px] hover:bg-[#e0e0e0] cursor-pointer transition-colors mt-0.5 whitespace-nowrap ${
+              className={`px-4 py-3 text-sm whitespace-nowrap border-b-2 transition-colors ${
                 activeTab === tab
-                  ? "bg-white border-t-[#d35400] border-l-gray-300 border-r-gray-300 font-bold border-b-transparent relative z-10 bottom-[-1px]"
-                  : "bg-transparent border-t-transparent text-gray-700 border-b-transparent hover:border-t-transparent"
+                  ? "border-blue-600 text-blue-600 font-semibold"
+                  : "border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-300"
               }`}
-              style={{
-                borderBottomColor: activeTab === tab ? "white" : "transparent",
-              }}
             >
               {tab}
             </button>
@@ -495,8 +498,8 @@ export default function ManageAccountPage() {
         </div>
       </div>
 
-      {/* ─── Content Area ─────────────────────────────────────────────────── */}
-      <div className="p-4 bg-[#f4f4f4]">
+      {/* ─── Content Area ─────────────────────────────────────────── */}
+      <div className="flex-grow p-4 sm:p-6 max-w-4xl w-full mx-auto">
         {activeTab === "Summary" && (
           <SummaryTab
             user={user}
@@ -566,6 +569,13 @@ export default function ManageAccountPage() {
           />
         )}
       </div>
+
+      {/* ─── Footer ──────────────────────────────────────────────── */}
+      <footer className="border-t border-gray-200 bg-white py-5 px-6 text-center">
+        <p className="text-xs text-gray-400">
+          &copy; {new Date().getFullYear()} {siteSettings.brandName}. All rights reserved.
+        </p>
+      </footer>
     </div>
   );
 }

@@ -1,86 +1,83 @@
 import { TProfile } from "@/types/user";
+import { Bell, Check } from "lucide-react";
 
 interface AlertPreferencesTabProps {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   profile: TProfile;
 }
 
-export const AlertPreferencesTab = ({
-  onSubmit,
-  profile,
-}: AlertPreferencesTabProps) => {
+const alwaysOn = [
+  "Change secret question and answer",
+  "Account deleted",
+  "Password reset request",
+  "New browser login",
+  "Email address verified",
+];
+
+export const AlertPreferencesTab = ({ onSubmit, profile }: AlertPreferencesTabProps) => {
   return (
-    <form
-      onSubmit={onSubmit}
-      className="bg-white border border-gray-300 shadow-sm min-h-[500px] flex flex-col"
-    >
-      <div className="bg-[#1b3564] text-white font-bold text-[13px] px-3 py-1.5">
-        Alert preferences
-      </div>
-      <div className="p-5 flex-1">
-        <p className="mb-4 text-[13px] text-black">
-          You will receive alerts for the following events via the email address
-          you saved in your ImmiAccount.
-        </p>
-        <ul className="list-disc pl-8 mb-6 text-[13px]">
-          <li>Change secret question and answer</li>
-          <li>Delete account</li>
-          <li>Forgot login id</li>
-          <li>Forgot password</li>
-
-          <li>New browser login</li>
-          <li>Verify email</li>
-        </ul>
-
-        <p className="mb-4 text-[13px] text-black">
-          You can change the following optional alert preferences. Select
-          &apos;Save&apos; to apply your changes.
-        </p>
-
-        <h3 className="font-bold text-[13px] mb-2 mt-0">Optional alerts</h3>
-
-        <div className="sm:ml-[180px] space-y-2">
-          <div className="flex items-start">
-            <input
-              type="checkbox"
-              id="alertPassword"
-              name="alertPassword"
-              defaultChecked={profile?.alertPassword ?? true}
-              className="mr-2"
-            />
-            <label htmlFor="alertPassword" className="text-[13px]">
-              Change password
-            </label>
-          </div>
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="alertUserDetails"
-              name="alertUserDetails"
-              defaultChecked={profile?.alertUserDetails ?? true}
-              className="mr-2"
-            />
-            <label htmlFor="alertUserDetails" className="text-[13px]">
-              User details changed
-            </label>
+    <div className="max-w-xl space-y-4">
+      {/* Always-on alerts info */}
+      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <div className="px-5 py-4 border-b border-gray-100 flex items-center gap-2">
+          <Bell size={16} className="text-gray-400" />
+          <h2 className="text-sm font-semibold text-gray-800">Always-on Alerts</h2>
+        </div>
+        <div className="px-5 py-4">
+          <p className="text-xs text-gray-500 mb-3">
+            You will always receive email notifications for these security events:
+          </p>
+          <div className="space-y-2">
+            {alwaysOn.map((item) => (
+              <div key={item} className="flex items-center gap-2.5">
+                <div className="w-4 h-4 rounded-full bg-green-100 border border-green-200 flex items-center justify-center shrink-0">
+                  <Check size={10} className="text-green-600" />
+                </div>
+                <span className="text-sm text-gray-600">{item}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      <div className="bg-[#e5e5e5] px-4 py-3 border-t border-gray-300 flex justify-between mt-auto">
-        <button
-          type="button"
-          className="bg-[#eeeeee] border border-gray-400 px-4 py-1 text-[12px] text-black hover:bg-gray-200 transition-colors"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className="bg-[#eeeeee] border border-gray-400 px-6 py-1 text-[12px] text-black hover:bg-gray-200 transition-colors shadow-sm"
-        >
-          Save
-        </button>
-      </div>
-    </form>
+      {/* Optional alerts */}
+      <form onSubmit={onSubmit}>
+        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-gray-100">
+            <h2 className="text-sm font-semibold text-gray-800">Optional Alerts</h2>
+            <p className="text-xs text-gray-400 mt-0.5">Choose which extra notifications you want to receive</p>
+          </div>
+          <div className="px-5 py-4 space-y-3">
+            {[
+              { id: "alertPassword", label: "Password changed", desc: "Notify me when my password is updated" },
+              { id: "alertUserDetails", label: "Profile details changed", desc: "Notify me when my account info is updated" },
+            ].map(({ id, label, desc }) => (
+              <label key={id} htmlFor={id} className="flex items-start gap-3 p-3 rounded-lg border border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors">
+                <input
+                  type="checkbox"
+                  id={id}
+                  name={id}
+                  defaultChecked={(profile as Record<string, unknown>)?.[id] as boolean ?? true}
+                  className="mt-0.5 h-4 w-4 rounded border-gray-300 accent-blue-600 cursor-pointer"
+                />
+                <div>
+                  <p className="text-sm font-medium text-gray-700">{label}</p>
+                  <p className="text-xs text-gray-400 mt-0.5">{desc}</p>
+                </div>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex justify-end gap-3 mt-4">
+          <button
+            type="submit"
+            className="px-5 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          >
+            Save Preferences
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };

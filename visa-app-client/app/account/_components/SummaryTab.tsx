@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
-
 import { TUser, TProfile } from "@/types/user";
+import { User, Mail, MapPin, Lock, HelpCircle, Bell, Trash2, ArrowRight } from "lucide-react";
 
 interface SummaryTabProps {
   user: TUser;
@@ -8,220 +8,161 @@ interface SummaryTabProps {
   setActiveTab: (tab: string) => void;
 }
 
+const InfoRow = ({
+  label,
+  value,
+  onEdit,
+  editLabel,
+}: {
+  label: string;
+  value: string;
+  onEdit?: () => void;
+  editLabel?: string;
+}) => (
+  <div className="flex items-start sm:items-center justify-between py-3 border-b border-gray-100 last:border-0 gap-2">
+    <div className="flex-1 min-w-0">
+      <p className="text-xs text-gray-400 mb-0.5">{label}</p>
+      <p className="text-sm text-gray-800 font-medium truncate">{value || "Not set"}</p>
+    </div>
+    {onEdit && (
+      <button
+        onClick={onEdit}
+        className="text-xs text-blue-600 hover:text-blue-800 shrink-0 font-medium hover:underline"
+      >
+        {editLabel || "Edit"}
+      </button>
+    )}
+  </div>
+);
+
 export const SummaryTab = ({ user, profile, setActiveTab }: SummaryTabProps) => {
   const router = useRouter();
 
+  const fullAddress = [
+    profile?.streetAddress || profile?.businessAddress || profile?.address?.street,
+    profile?.city || profile?.address?.city,
+    profile?.stateProvince || profile?.state || profile?.address?.state,
+    profile?.zipPostalCode || profile?.address?.zipCode,
+    profile?.country || profile?.address?.country,
+  ].filter(Boolean).join(", ") || "Not set";
+
+  const givenName = user?.name?.split(" ")[0] || "—";
+  const familyName = user?.name?.split(" ").slice(1).join(" ") || "—";
+
   return (
-    <div className="bg-white border border-gray-300 shadow-sm min-h-[500px]">
-      <div className="bg-[#1b3564] text-white font-bold text-[13px] px-3 py-1.5">
-        Summary
-      </div>
-      <div className="p-5">
-        <h3 className="text-[#1b3564] text-[18px] font-normal mb-2 mt-0">
-          My services
-        </h3>
-        <p className="mb-4 text-[13px]">
-          You have access to the following services and can request access to
-          additional services from the{" "}
-          <a
-            href="#"
-            className="underline text-[#1b3564]"
-            onClick={(e) => {
-              e.preventDefault();
-              setActiveTab("Request access");
-            }}
-          >
-            Request access
-          </a>{" "}
-          tab.
-        </p>
-        <ul className="list-disc pl-5 mb-8 text-[#1b3564] text-[13px] space-y-1">
-          <li>
-            <a href="#" className="underline hover:text-blue-800">
-              Detention Visitor Application
-            </a>
-          </li>
-          <li>
-            <a href="/payments" className="underline hover:text-blue-800">
-              Manage Payments
-            </a>
-          </li>
-          <li>
-            <a href="/dashboard" className="underline hover:text-blue-800">
-              Online Lodgement (Apply for a visa or citizenship including
-              sponsorship and nomination) - Individual
-            </a>
-          </li>
-          <li>
-            <a href="#" className="underline hover:text-blue-800">
-              LEGENDcom
-            </a>
-          </li>
-        </ul>
-
-        <div className="border-t border-dashed border-gray-300 mb-6" />
-
-        <div className="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-y-3 sm:gap-y-1.5 text-[13px]">
-          <div className="text-gray-900">Given names</div>
-          <div>
-            {user?.name?.split(" ")[0] || "rahman"}{" "}
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setActiveTab("Account details");
-              }}
-              className="text-[#1b3564] underline"
-            >
-              (edit given name)
-            </a>
-          </div>
-
-          <div className="text-gray-900">Family name</div>
-          <div>
-            {user?.name?.split(" ").slice(1).join(" ") || "syed"}{" "}
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setActiveTab("Account details");
-              }}
-              className="text-[#1b3564] underline"
-            >
-              (edit family name)
-            </a>
-          </div>
-
-          <div className="text-gray-900">Email address</div>
-          <div>
-            {user?.email || "ghave763@gmail.com"}{" "}
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setActiveTab("Email address");
-              }}
-              className="text-[#1b3564] underline"
-            >
-              (edit email address)
-            </a>
-          </div>
-
-          <div className="text-gray-900">Username</div>
-          <div className="mb-6">{user?.email || "ghave763@gmail.com"}</div>
-
+    <div className="space-y-4">
+      {/* Account Info */}
+      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <div className="px-5 py-4 border-b border-gray-100 flex items-center gap-2">
+          <User size={16} className="text-gray-400" />
+          <h2 className="text-sm font-semibold text-gray-800">Personal Information</h2>
+        </div>
+        <div className="px-5">
+          <InfoRow
+            label="Given Name"
+            value={givenName}
+            onEdit={() => setActiveTab("Account details")}
+            editLabel="Edit"
+          />
+          <InfoRow
+            label="Family Name"
+            value={familyName}
+            onEdit={() => setActiveTab("Account details")}
+            editLabel="Edit"
+          />
+          <InfoRow
+            label="Username"
+            value={user?.email || "—"}
+          />
           {user?.role === "agent" && (
-            <>
-              <div className="text-gray-900">Organisation</div>
-              <div className="mb-6">
-                {profile?.companyName || "N/A"}{" "}
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setActiveTab("Account details");
-                  }}
-                  className="text-[#1b3564] underline"
-                >
-                  (edit organisation)
-                </a>
-              </div>
-            </>
+            <InfoRow
+              label="Organisation"
+              value={profile?.companyName || "Not set"}
+              onEdit={() => setActiveTab("Account details")}
+              editLabel="Edit"
+            />
           )}
-
-          <div className="text-gray-900">
-            {user?.role === "agent" ? "Business address" : "Street address"}
-          </div>
-          <div>
-            {[
-              profile?.streetAddress ||
-                profile?.businessAddress ||
-                profile?.address?.street,
-              profile?.city || profile?.address?.city,
-              profile?.stateProvince || profile?.state || profile?.address?.state,
-              profile?.zipPostalCode || profile?.address?.zipCode,
-              profile?.country || profile?.address?.country,
-            ]
-              .filter(Boolean)
-              .join(", ") || "N/A"}{" "}
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setActiveTab("Account details");
-              }}
-              className="text-[#1b3564] underline"
-            >
-              (edit {user?.role === "agent" ? "business" : "street"} address)
-            </a>
-          </div>
-
-          <div className="text-gray-900">Alerts</div>
-          <div>
-            I will receive account alerts{" "}
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setActiveTab("Alert preferences");
-              }}
-              className="text-[#1b3564] underline"
-            >
-              (change my account alert preferences)
-            </a>
-          </div>
-
-          <div className="text-gray-900">Password</div>
-          <div>
-            Password saved{" "}
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setActiveTab("Password");
-              }}
-              className="text-[#1b3564] underline"
-            >
-              (change my password)
-            </a>
-          </div>
-
-          <div className="text-gray-900">Secret questions</div>
-          <div>
-            Secret questions saved{" "}
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setActiveTab("Secret questions");
-              }}
-              className="text-[#1b3564] underline"
-            >
-              (change my secret questions)
-            </a>
-          </div>
-
-          <div className="text-gray-900">Terms and conditions</div>
-          <div>
-            <a href="#" className="text-[#1b3564] underline">
-              View the ImmiAccount terms and conditions (opens in a new window)
-            </a>
-          </div>
-
-          <div className="text-gray-900 mt-1">Delete account</div>
-          <div className="mt-1">
-            <a href="#" className="text-[#1b3564] underline">
-              Delete my ImmiAccount
-            </a>
-          </div>
         </div>
       </div>
-      <div className="bg-[#e5e5e5] px-4 py-3 border-t border-gray-300 mt-6">
+
+      {/* Contact */}
+      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <div className="px-5 py-4 border-b border-gray-100 flex items-center gap-2">
+          <Mail size={16} className="text-gray-400" />
+          <h2 className="text-sm font-semibold text-gray-800">Contact & Address</h2>
+        </div>
+        <div className="px-5">
+          <InfoRow
+            label="Email Address"
+            value={user?.email || "—"}
+            onEdit={() => setActiveTab("Email address")}
+            editLabel="Change"
+          />
+          <InfoRow
+            label={user?.role === "agent" ? "Business Address" : "Street Address"}
+            value={fullAddress}
+            onEdit={() => setActiveTab("Account details")}
+            editLabel="Edit"
+          />
+        </div>
+      </div>
+
+      {/* Security */}
+      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <div className="px-5 py-4 border-b border-gray-100 flex items-center gap-2">
+          <Lock size={16} className="text-gray-400" />
+          <h2 className="text-sm font-semibold text-gray-800">Security Settings</h2>
+        </div>
+        <div className="px-5">
+          <InfoRow
+            label="Password"
+            value="••••••••••••"
+            onEdit={() => setActiveTab("Password")}
+            editLabel="Change"
+          />
+          <InfoRow
+            label="Secret Questions"
+            value="Questions saved"
+            onEdit={() => setActiveTab("Secret questions")}
+            editLabel="Update"
+          />
+        </div>
+      </div>
+
+      {/* Preferences */}
+      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <div className="px-5 py-4 border-b border-gray-100 flex items-center gap-2">
+          <Bell size={16} className="text-gray-400" />
+          <h2 className="text-sm font-semibold text-gray-800">Notifications & Access</h2>
+        </div>
+        <div className="px-5">
+          <InfoRow
+            label="Alert Preferences"
+            value="Email alerts enabled"
+            onEdit={() => setActiveTab("Alert preferences")}
+            editLabel="Manage"
+          />
+          <InfoRow
+            label="Service Access"
+            value="View your permitted services"
+            onEdit={() => setActiveTab("Request access")}
+            editLabel="Manage"
+          />
+        </div>
+      </div>
+
+      {/* Actions */}
+      <div className="flex flex-col sm:flex-row gap-3">
         <button
           onClick={() => router.push("/dashboard")}
-          className="bg-[#eeeeee] border border-gray-400 px-4 py-1.5 text-[12px] text-gray-800 hover:bg-gray-200"
+          className="flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
         >
-          Return to Online Lodgement
+          Go to Dashboard <ArrowRight size={15} />
+        </button>
+        <button
+          className="flex items-center justify-center gap-2 px-4 py-2.5 border border-rose-200 text-rose-600 hover:bg-rose-50 text-sm font-medium rounded-lg transition-colors"
+        >
+          <Trash2 size={14} /> Delete Account
         </button>
       </div>
     </div>

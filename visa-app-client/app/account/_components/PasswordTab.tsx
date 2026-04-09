@@ -1,6 +1,6 @@
 import { UseFormReturn } from "react-hook-form";
 import * as schemas from "@/schemas/profile.schema";
-import { InputRow } from "./InputRow";
+import { Lock, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
 interface PasswordTabProps {
@@ -8,93 +8,112 @@ interface PasswordTabProps {
   onSubmit: (data: schemas.PasswordUpdateValues) => Promise<void>;
 }
 
+const PasswordField = ({
+  label,
+  reg,
+  error,
+  show,
+  onToggle,
+}: {
+  label: string;
+  reg: ReturnType<UseFormReturn<schemas.PasswordUpdateValues>["register"]>;
+  error?: string;
+  show: boolean;
+  onToggle: () => void;
+}) => (
+  <div className="space-y-1.5">
+    <label className="text-sm font-medium text-gray-700">{label}</label>
+    <div className="relative">
+      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={15} />
+      <input
+        {...reg}
+        type={show ? "text" : "password"}
+        placeholder="••••••••••••••"
+        className={`w-full pl-9 pr-10 py-2.5 text-sm border rounded-lg outline-none transition-colors ${
+          error ? "border-rose-400 bg-rose-50" : "border-gray-200 focus:border-blue-400 bg-white"
+        }`}
+      />
+      <button type="button" onClick={onToggle} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+        {show ? <EyeOff size={15} /> : <Eye size={15} />}
+      </button>
+    </div>
+    {error && <p className="text-xs text-rose-500">{error}</p>}
+  </div>
+);
+
 export const PasswordTab = ({ passwordForm, onSubmit }: PasswordTabProps) => {
-  const [showOldPassword, setShowOldPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showOld, setShowOld] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   return (
-    <form
-      onSubmit={passwordForm.handleSubmit(onSubmit)}
-      className="bg-white border border-gray-300 shadow-sm min-h-[500px] flex flex-col"
-    >
-      <div className="bg-[#1b3564] text-white font-bold text-[13px] px-3 py-1.5">
-        Change Password
-      </div>
-      <div className="p-5 flex-1">
-        <p className="mb-3 text-[13px] text-black">
-          Enter the following details to update your password and select
-          &apos;Save&apos; to apply your changes:
-        </p>
-        <p className="mb-6 text-[13px] text-black">
-          Fields marked <span className="text-[#c41a1f]">*</span> must be
-          completed.
-        </p>
-
-        <div className="mb-6">
-          <InputRow
-            label="Current password"
-            isRequired
-            type="password"
-            registerProps={passwordForm.register("oldPassword")}
-            error={passwordForm.formState.errors.oldPassword?.message}
-            onTogglePassword={() => setShowOldPassword(!showOldPassword)}
-            showPassword={showOldPassword}
-          />
-          <InputRow
-            label="New password"
-            isRequired
-            type="password"
-            registerProps={passwordForm.register("newPassword")}
-            error={passwordForm.formState.errors.newPassword?.message}
-            onTogglePassword={() => setShowNewPassword(!showNewPassword)}
-            showPassword={showNewPassword}
-          />
-          <InputRow
-            label="Confirm new password"
-            isRequired
-            type="password"
-            registerProps={passwordForm.register("confirmPassword")}
-            error={passwordForm.formState.errors.confirmPassword?.message}
-            onTogglePassword={() => setShowConfirmPassword(!showConfirmPassword)}
-            showPassword={showConfirmPassword}
-          />
+    <div className="max-w-xl">
+      <form onSubmit={passwordForm.handleSubmit(onSubmit)} className="space-y-4">
+        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-gray-100">
+            <h2 className="text-sm font-semibold text-gray-800">Change Password</h2>
+            <p className="text-xs text-gray-400 mt-0.5">Enter your current password then choose a new one</p>
+          </div>
+          <div className="px-5 py-5 space-y-4">
+            <PasswordField
+              label="Current Password"
+              reg={passwordForm.register("oldPassword")}
+              error={passwordForm.formState.errors.oldPassword?.message}
+              show={showOld}
+              onToggle={() => setShowOld(!showOld)}
+            />
+            <PasswordField
+              label="New Password"
+              reg={passwordForm.register("newPassword")}
+              error={passwordForm.formState.errors.newPassword?.message}
+              show={showNew}
+              onToggle={() => setShowNew(!showNew)}
+            />
+            <PasswordField
+              label="Confirm New Password"
+              reg={passwordForm.register("confirmPassword")}
+              error={passwordForm.formState.errors.confirmPassword?.message}
+              show={showConfirm}
+              onToggle={() => setShowConfirm(!showConfirm)}
+            />
+          </div>
         </div>
-        <p className="mb-4 text-[13px] text-black">
-          Password must be a minimum of fourteen (14) characters{" "}
-          <strong>and</strong> include at least one (1) character from three (3)
-          of the four (4) groups below:
-        </p>
-        <ul className="list-disc pl-8 mb-4 text-[13px]">
-          <li>lower-case characters (a-z)</li>
-          <li>upper-case characters (A-Z)</li>
-          <li>digits (0-9)</li>
-          <li>
-            punctuation and special characters {"(-`!@#$%^&*()_+=-\\{}\\.,?/)"}
-          </li>
-        </ul>
-        <p className="mb-6 text-[13px] font-bold">
-          Note:{" "}
-          <span className="font-normal">
-            You cannot reuse any of your eight (8) previous passwords.
-          </span>
-        </p>
-      </div>
 
-      <div className="bg-[#e5e5e5] px-4 py-3 border-t border-gray-300 flex justify-between mt-auto">
-        <button
-          type="button"
-          className="bg-[#eeeeee] border border-gray-400 px-4 py-1 text-[12px] text-black hover:bg-gray-200 transition-colors"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className="bg-[#eeeeee] border border-gray-400 px-6 py-1 text-[12px] text-black hover:bg-gray-200 transition-colors shadow-sm"
-        >
-          Save
-        </button>
-      </div>
-    </form>
+        {/* Requirements */}
+        <div className="bg-blue-50 border border-blue-100 rounded-xl p-4">
+          <p className="text-xs font-semibold text-blue-700 mb-2">Password requirements</p>
+          <ul className="space-y-1">
+            {[
+              "At least 14 characters long",
+              "At least one lowercase letter (a-z)",
+              "At least one uppercase letter (A-Z)",
+              "At least one number (0-9)",
+              "Cannot reuse your last 8 passwords",
+            ].map((req) => (
+              <li key={req} className="text-xs text-blue-600 flex items-center gap-2">
+                <span className="w-1 h-1 bg-blue-400 rounded-full shrink-0" />
+                {req}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="flex justify-end gap-3">
+          <button
+            type="button"
+            onClick={() => passwordForm.reset()}
+            className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="px-5 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          >
+            Save Password
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
