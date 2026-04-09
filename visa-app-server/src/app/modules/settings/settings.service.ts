@@ -19,24 +19,34 @@ const getSiteSettings = async (): Promise<TSiteSettings> => {
                     { label: 'Privacy', href: '/legal#privacy' },
                     { label: 'Security', href: '/legal#security' },
                 ],
-                contactEmail: 'support@homeaffairs.gov.au',
-                contactPhone: '+61 2 6196 0196',
-                address: 'Department of Home Affairs, Australia',
+                contactEmail: 'support@visa-agency.com',
+                contactPhone: '+880-XXXX-XXXXXX',
+                supportEmail: 'care@visa-agency.com',
+                supportPhone: '+880-YYYY-YYYYYY',
+                dhakaOffice: 'Gulshan-2, Road 90, House 12/A, Dhaka 1212, Bangladesh',
+                sydneyOffice: 'Level 45, 680 George Street, Sydney, NSW 2000, Australia',
+                officeHours: 'Sun - Thu: 9:00 AM - 5:00 PM',
+                address: 'Dhaka, Bangladesh',
                 logoUrl: 'https://seeklogo.com/images/A/australian-government-logo-B138092B08-seeklogo.com.png',
-                themeColor: '#00264d'
+                themeColor: '#020617'
             }
         });
     }
     return {
-        siteName: settings.site?.siteName || 'ImmiAccount',
-        brandName: settings.site?.brandName || 'Australian Government',
-        departmentName: settings.site?.departmentName || 'Department of Home Affairs',
+        siteName: settings.site?.siteName || 'Elite Visa Hub',
+        brandName: settings.site?.brandName || 'Global Passports & Visas',
+        departmentName: settings.site?.departmentName || 'Advanced Immigration Consultants',
         footerLinks: settings.site?.footerLinks || [],
-        contactEmail: settings.site?.contactEmail || 'support@homeaffairs.gov.au',
-        contactPhone: settings.site?.contactPhone || '+61 2 6196 0196',
-        address: settings.site?.address || 'Department of Home Affairs, Australia',
-        logoUrl: settings.site?.logoUrl || 'https://seeklogo.com/images/A/australian-government-logo-B138092B08-seeklogo.com.png',
-        themeColor: settings.site?.themeColor || '#00264d'
+        contactEmail: settings.site?.contactEmail || 'support@visa-agency.com',
+        contactPhone: settings.site?.contactPhone || '+880-XXXX-XXXXXX',
+        supportEmail: settings.site?.supportEmail || 'care@visa-agency.com',
+        supportPhone: settings.site?.supportPhone || '+880-YYYY-YYYYYY',
+        dhakaOffice: settings.site?.dhakaOffice || 'Gulshan-2, Road 90, House 12/A, Dhaka 1212, Bangladesh',
+        sydneyOffice: settings.site?.sydneyOffice || 'Level 45, 680 George Street, Sydney, NSW 2000, Australia',
+        officeHours: settings.site?.officeHours || 'Sun - Thu: 9:00 AM - 5:00 PM',
+        address: settings.site?.address || 'Dhaka, Bangladesh',
+        logoUrl: settings.site?.logoUrl || '',
+        themeColor: settings.site?.themeColor || '#020617'
     } as TSiteSettings;
 };
 

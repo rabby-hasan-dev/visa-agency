@@ -9,8 +9,20 @@ import {
   MapPin,
   CheckCircle2
 } from "lucide-react";
+import { useGetSiteSettingsQuery } from "@/redux/api/settingsApi";
+import { TSiteSettings } from "@/types/settings";
 
 export default function AboutPage() {
+  const { data: siteResponse } = useGetSiteSettingsQuery({});
+
+  const siteSettings = (siteResponse?.data ?? {
+    siteName: "Elite Visa Hub",
+    brandName: "Global Passports & Visas",
+    departmentName: "Advanced Immigration Consultants",
+    address: "Dhaka, Bangladesh",
+    dhakaOffice: "Maghbazar, Dhaka",
+  }) as TSiteSettings;
+
   return (
     <main className="bg-[#040d1a] min-h-screen font-sans text-gray-200 overflow-x-hidden">
       <Header />
@@ -37,7 +49,7 @@ export default function AboutPage() {
             </span>
           </h1>
           <p className="text-xl text-gray-400 mb-10 leading-relaxed max-w-2xl mx-auto">
-            Elite Visa Hub is a leading immigration agency in Bangladesh. We help people 
+            {siteSettings.siteName} is a leading immigration agency in {siteSettings.address}. We help people 
             find global opportunities through expert advice and straightforward 
             visa solutions.
           </p>
@@ -96,7 +108,7 @@ export default function AboutPage() {
             <h3 className="text-4xl lg:text-5xl font-bold text-white mb-8">Decades of Combined Experience</h3>
             <div className="space-y-6 text-gray-400 leading-relaxed">
               <p>
-                Founded in Dhaka, Elite Visa Hub started with a simple goal: to make moving abroad 
+                Founded in {siteSettings.address}, {siteSettings.siteName} started with a simple goal: to make moving abroad 
                 easier and safer for everyone. Over the years, we have grown from a small consultancy 
                 into a trusted licensed partner for Australian immigration.
               </p>
@@ -108,7 +120,7 @@ export default function AboutPage() {
               <ul className="space-y-4 pt-4">
                 {[
                   "Licensed Australian Migration Partner",
-                  "Based in Maghbazar, HEART of Dhaka",
+                  `Based in ${siteSettings.dhakaOffice}`,
                   "Multilingual support (Bangla, English)",
                   "Official SSLCommerz Payment Partner"
                 ].map((item, i) => (
@@ -128,7 +140,7 @@ export default function AboutPage() {
         <div className="text-center mb-16">
           <h3 className="text-4xl font-bold text-white mb-4">Our Global Network</h3>
           <p className="text-gray-400 max-w-2xl mx-auto">
-            While our headquarters is in Dhaka, we have a global reach. We work with strong 
+            While our headquarters is in {siteSettings.address}, we have a global reach. We work with strong 
             networks across Australia, the UK, and Canada to provide our clients with the best 
             support abroad.
           </p>

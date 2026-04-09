@@ -1,8 +1,13 @@
 "use client";
 
 import { AlertTriangle, ShieldCheck, Scale, ExternalLink } from "lucide-react";
+import { useGetSiteSettingsQuery } from "@/redux/api/settingsApi";
+import { TSiteSettings } from "@/types/settings";
 
 export default function DisclaimerPage() {
+  const { data: siteResponse } = useGetSiteSettingsQuery({});
+  const siteSettings = (siteResponse?.data || {}) as TSiteSettings;
+
   return (
     <div className="bg-[#020617] min-h-screen text-white pb-24">
       {/* ── Hero Section ── */}
@@ -32,7 +37,7 @@ export default function DisclaimerPage() {
                 Independent Representation
               </h2>
               <p className="text-gray-400 text-sm leading-relaxed">
-                Visa Central Bangladeshi Partner is a <strong>private immigration consultancy</strong> and an independent agency. We are not affiliated with the Australian Department of Home Affairs or any other government body. While we are licensed partners, our services are independent representations provided to clients globally.
+                {siteSettings.brandName || "Advanced Visa Agency"} is a <strong>private immigration consultancy</strong> and an independent agency. We are not affiliated with any government body. While we are licensed partners, our services are independent representations provided to clients globally.
               </p>
             </div>
           </div>
@@ -77,7 +82,7 @@ export default function DisclaimerPage() {
             <div className="space-y-3">
                <h2 className="text-xl font-bold tracking-tight text-white">No Result Guarantees</h2>
                <p className="text-gray-400 text-sm leading-relaxed">
-                 We are experts at preparing visa applications, but we do <strong>not</strong> guarantee that your visa will be granted. The final decision always rests with the Australian government authorities. Any mention of past successes on this site does not promise future results.
+                 We are experts at preparing visa applications, but we do <strong>not</strong> guarantee that your visa will be granted. The final decision always rests with the government authorities. Any mention of past successes on this site does not promise future results.
                </p>
             </div>
           </div>
@@ -86,7 +91,7 @@ export default function DisclaimerPage() {
         {/* ── Footer Quote ── */}
         <div className="text-center space-y-2">
           <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Official Transparency Notice</p>
-          <p className="text-[10px] text-gray-600 italic">Last updated: April 2024 · Bangladesh Operations Center</p>
+          <p className="text-[10px] text-gray-600 italic">Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} · {siteSettings.address || "International Support Center"}</p>
         </div>
       </div>
     </div>

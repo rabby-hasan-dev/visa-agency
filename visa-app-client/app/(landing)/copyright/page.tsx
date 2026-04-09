@@ -1,9 +1,13 @@
 "use client";
 
 import { FileLock, UserCheck, ShieldCheck, DownloadCloud } from "lucide-react";
+import { useGetSiteSettingsQuery } from "@/redux/api/settingsApi";
+import { TSiteSettings } from "@/types/settings";
 
 export default function CopyrightPage() {
   const currentYear = new Date().getFullYear();
+  const { data: siteResponse } = useGetSiteSettingsQuery({});
+  const siteSettings = (siteResponse?.data || {}) as TSiteSettings;
 
   return (
     <div className="bg-[#020617] min-h-screen text-white pb-24">
@@ -35,7 +39,7 @@ export default function CopyrightPage() {
             <div className="space-y-4">
               <div className="space-y-1">
                 <h2 className="text-xl font-bold tracking-tight text-white uppercase">Ownership of Content</h2>
-                <div className="text-blue-500 font-mono text-xs font-bold">&copy; {currentYear} Visa Central Partner Bangladesh.</div>
+                <div className="text-blue-500 font-mono text-xs font-bold">&copy; {currentYear} {siteSettings.brandName || "Visa Central Partner"}.</div>
               </div>
               <p className="text-gray-400 text-sm leading-relaxed">
                 Everything you see on this website belongs to us or our Australian partners. This includes the text, the buttons, the cool graphics, and even the way the pages are laid out. These things are protected by law in Bangladesh, Australia, and all around the world.
@@ -92,7 +96,7 @@ export default function CopyrightPage() {
         {/* ── Footer Quote ── */}
         <div className="text-center space-y-2">
           <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Protection of Digital Assets</p>
-          <p className="text-[10px] text-gray-600 italic">Global Rights Reserved · Managed by Bangladesh Operations</p>
+          <p className="text-[10px] text-gray-600 italic">Global Rights Reserved · {siteSettings.address || "Bangladesh Operations"}</p>
         </div>
       </div>
     </div>

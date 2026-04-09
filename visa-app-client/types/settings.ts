@@ -15,6 +15,11 @@ export type TSiteSettings = {
   footerLinks: { label: string; href: string; isExternal?: boolean }[];
   contactEmail: string;
   contactPhone: string;
+  supportEmail: string;
+  supportPhone: string;
+  dhakaOffice: string;
+  sydneyOffice: string;
+  officeHours: string;
   address: string;
   logoUrl?: string;
   themeColor?: string;

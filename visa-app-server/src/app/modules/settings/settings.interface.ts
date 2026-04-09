@@ -20,11 +20,16 @@ export type TNavigationItem = {
 
 export type TSiteSettings = {
   siteName: string;
-  brandName: string; // e.g. "Australian Government"
-  departmentName: string; // e.g. "Department of Home Affairs"
+  brandName: string;
+  departmentName: string;
   footerLinks: TFooterLink[];
   contactEmail: string;
   contactPhone: string;
+  supportEmail: string;
+  supportPhone: string;
+  dhakaOffice: string;
+  sydneyOffice: string;
+  officeHours: string;
   address: string;
   logoUrl?: string;
   themeColor?: string;

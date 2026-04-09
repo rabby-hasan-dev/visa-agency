@@ -107,7 +107,52 @@ const BrandingForm = ({ initialData }: { initialData: TSiteSettings }) => {
           />
         </div>
         <div>
-          <label className="block text-sm font-bold text-gray-700 mb-1.5">Address</label>
+          <label className="block text-sm font-bold text-gray-700 mb-1.5">Support Email</label>
+          <input
+            type="email"
+            className={inputCls}
+            value={siteForm.supportEmail || ""}
+            onChange={(e) => setSiteForm({ ...siteForm, supportEmail: e.target.value })}
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-gray-700 mb-1.5">Support Phone</label>
+          <input
+            type="text"
+            className={inputCls}
+            value={siteForm.supportPhone || ""}
+            onChange={(e) => setSiteForm({ ...siteForm, supportPhone: e.target.value })}
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-gray-700 mb-1.5">Dhaka Office</label>
+          <input
+            type="text"
+            className={inputCls}
+            value={siteForm.dhakaOffice || ""}
+            onChange={(e) => setSiteForm({ ...siteForm, dhakaOffice: e.target.value })}
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-gray-700 mb-1.5">Sydney Office</label>
+          <input
+            type="text"
+            className={inputCls}
+            value={siteForm.sydneyOffice || ""}
+            onChange={(e) => setSiteForm({ ...siteForm, sydneyOffice: e.target.value })}
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-gray-700 mb-1.5">Office Hours</label>
+          <input
+            type="text"
+            className={inputCls}
+            value={siteForm.officeHours || ""}
+            onChange={(e) => setSiteForm({ ...siteForm, officeHours: e.target.value })}
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-gray-700 mb-1.5">General Address</label>
           <input
             type="text"
             className={inputCls}

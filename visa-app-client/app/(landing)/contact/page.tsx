@@ -62,7 +62,7 @@ export default function ContactPage() {
               icon={MessageSquare}
               title="Online Enquiry"
               description="Best for non-urgent questions about visa types or document requirements."
-              actionText="Start a Chat"
+              actionText={siteSettings?.supportEmail || "Start a Chat"}
               actionLink="/support"
               color="blue"
             />
@@ -87,12 +87,11 @@ export default function ContactPage() {
                 <p className="text-[10px] font-black text-blue-500 uppercase tracking-[0.2em]">Bangladesh Operations</p>
                 <div className="space-y-2">
                   <h3 className="text-xl font-bold">Dhaka Head Office</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">
-                    Gulshan-2, Road 90, House 12/A<br />
-                    Dhaka 1212, Bangladesh
+                  <p className="text-gray-400 text-sm leading-relaxed whitespace-pre-wrap">
+                    {siteSettings?.dhakaOffice || "Gulshan-2, Road 90, House 12/A\nDhaka 1212, Bangladesh"}
                   </p>
-                  <p className="text-xs text-gray-500 flex items-center gap-2 mt-4">
-                    <Clock size={12} /> Sun - Thu: 9:00 AM - 5:00 PM
+                  <p className="text-xs text-gray-500 flex items-center gap-2 mt-4 font-bold uppercase tracking-widest">
+                    <Clock size={12} /> {siteSettings?.officeHours || "Sun - Thu: 9:00 AM - 5:00 PM"}
                   </p>
                 </div>
               </div>
@@ -100,12 +99,11 @@ export default function ContactPage() {
                 <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em]">Australian Support</p>
                 <div className="space-y-2">
                   <h3 className="text-xl font-bold">Sydney Liaison</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">
-                    Level 45, 680 George Street<br />
-                    Sydney, NSW 2000, Australia
+                  <p className="text-gray-400 text-sm leading-relaxed whitespace-pre-wrap">
+                    {siteSettings?.sydneyOffice || "Level 45, 680 George Street\nSydney, NSW 2000, Australia"}
                   </p>
-                  <p className="text-xs text-gray-500 flex items-center gap-2 mt-4">
-                    <Clock size={12} /> Mon - Fri: 9:00 AM - 5:00 PM (AEST)
+                  <p className="text-xs text-gray-500 flex items-center gap-2 mt-4 font-bold uppercase tracking-widest">
+                    <Clock size={12} /> {siteSettings?.officeHours || "Mon - Fri: 9:00 AM - 5:00 PM (AEST)"}
                   </p>
                 </div>
               </div>
@@ -166,7 +164,9 @@ export default function ContactPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 mt-20 text-center">
-         <p className="text-[10px] font-black text-gray-600 uppercase tracking-[0.5em]">Global Migration Partners · Dhaka · Sydney · London</p>
+         <p className="text-[10px] font-black text-gray-600 uppercase tracking-[0.5em]">
+           {siteSettings?.siteName || "Global Migration Partners"} · {siteSettings?.address || "Dhaka · Sydney"}
+         </p>
       </div>
     </div>
   );
@@ -186,8 +186,8 @@ function ContactCard({ icon: Icon, title, description, actionText, actionLink, c
         <h3 className="text-xl font-black tracking-tight text-white uppercase">{title}</h3>
         <p className="text-gray-400 text-sm leading-relaxed">{description}</p>
       </div>
-      <Link href={actionLink} className="flex items-center gap-2 text-xs font-black uppercase tracking-widest group-hover:gap-4 transition-all pt-2">
-        {actionText} <ArrowRight size={14} />
+      <Link href={actionLink} className="flex items-center gap-2 text-xs font-black uppercase tracking-widest group-hover:gap-4 transition-all pt-2 truncate overflow-hidden">
+        {actionText} <ArrowRight size={14} className="shrink-0" />
       </Link>
     </div>
   );

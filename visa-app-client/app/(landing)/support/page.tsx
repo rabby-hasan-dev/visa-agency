@@ -3,10 +3,11 @@
 import { HelpCircle, BookOpen, MessageCircle, FileText, Search, ChevronRight, PlayCircle, ShieldAlert } from "lucide-react";
 import Link from "next/link";
 import { useGetSiteSettingsQuery } from "@/redux/api/settingsApi";
+import { TSiteSettings } from "@/types/settings";
 
 export default function SupportPage() {
   const { data: siteResponse } = useGetSiteSettingsQuery({});
-  const siteSettings = siteResponse?.data;
+  const siteSettings = (siteResponse?.data || {}) as TSiteSettings;
 
   return (
     <div className="bg-[#020617] min-h-screen text-white pb-24 font-sans">
@@ -129,11 +130,11 @@ export default function SupportPage() {
                <div className="space-y-4">
                   <div className="space-y-1">
                      <p className="text-xs font-bold text-gray-300">Global Service Center</p>
-                     <p className="text-lg font-black text-white">+61 2 XXXXXXXX</p>
+                     <p className="text-lg font-black text-white">{siteSettings.sydneyOffice ? siteSettings.supportPhone : "+61 2 XXXXXXXX"}</p>
                   </div>
                   <div className="space-y-1">
                      <p className="text-xs font-bold text-gray-300">Dhaka Priority Line</p>
-                     <p className="text-lg font-black text-white">+880 XXXXXXXX</p>
+                     <p className="text-lg font-black text-white">{siteSettings.contactPhone || "+880 XXXXXXXX"}</p>
                   </div>
                </div>
             </div>

@@ -24,6 +24,8 @@ export default function Home() {
     siteName: "Elite Visa Hub",
     brandName: "Global Passports & Visas",
     departmentName: "Advanced Immigration Consultants",
+    address: "Dhaka, Bangladesh",
+    dhakaOffice: "Gulfesha Plaza, Maghbazar",
   }) as TSiteSettings;
 
   return (
@@ -60,7 +62,7 @@ export default function Home() {
             </h1>
             <p className="text-xl text-gray-400 mb-10 leading-relaxed max-w-2xl">
               We provide expert visa processing and Australian immigration services. 
-              Based in Dhaka, we help individuals and businesses with transparent 
+              Based in {siteSettings.address}, we help individuals and businesses with transparent 
               fee management and global migration support.
             </p>
             <div className="flex flex-col sm:flex-row gap-5">
@@ -191,24 +193,24 @@ export default function Home() {
              <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-600/20 rounded-full blur-3xl" />
              <div className="bg-white/5 border border-white/10 p-8 rounded-[2.5rem] backdrop-blur-xl relative z-10 overflow-hidden">
                 <div className="flex justify-between items-center mb-10">
-                  <div className="font-bold text-white">Fee Summary</div>
-                  <div className="px-3 py-1 bg-white/10 rounded-lg text-xs font-mono">APP-2024-8832</div>
+                   <div className="font-bold text-white">Fee Summary</div>
+                   <div className="px-3 py-1 bg-white/10 rounded-lg text-xs font-mono">APP-2024-8832</div>
                 </div>
                 <div className="space-y-6">
-                  {[
-                    { label: "Application Fee (AUD)", val: "$2,450.00" },
-                    { label: "Exchange Rate (AUD/BDT)", val: "76.42" },
-                    { label: "Net Payable (BDT)", val: "৳187,229.00" },
-                  ].map((row, i) => (
-                    <div key={i} className="flex justify-between items-center py-4 border-b border-white/5">
-                      <div className="text-gray-400 text-sm">{row.label}</div>
-                      <div className="text-white font-mono font-bold">{row.val}</div>
-                    </div>
-                  ))}
-                  <div className="flex justify-between items-center py-6">
-                    <div className="text-blue-400 font-bold">Total Deduction</div>
-                    <div className="text-2xl font-black text-white">৳187,229.00</div>
-                  </div>
+                   {[
+                     { label: "Application Fee (AUD)", val: "$2,450.00" },
+                     { label: "Exchange Rate (AUD/BDT)", val: "76.42" },
+                     { label: "Net Payable (BDT)", val: "৳187,229.00" },
+                   ].map((row, i) => (
+                     <div key={i} className="flex justify-between items-center py-4 border-b border-white/5">
+                       <div className="text-gray-400 text-sm">{row.label}</div>
+                       <div className="text-white font-mono font-bold">{row.val}</div>
+                     </div>
+                   ))}
+                   <div className="flex justify-between items-center py-6">
+                     <div className="text-blue-400 font-bold">Total Deduction</div>
+                     <div className="text-2xl font-black text-white">৳187,229.00</div>
+                   </div>
                 </div>
                 <div className="mt-8 bg-blue-600 p-4 rounded-2xl flex items-center justify-center gap-3 font-bold text-white">
                    <ShieldCheck size={20} /> Payment Secured by SSLCommerz
@@ -250,7 +252,7 @@ export default function Home() {
           <div className="relative z-10 max-w-2xl">
             <h3 className="text-4xl lg:text-5xl font-bold text-white mb-6">Local Expertise with Global Reach</h3>
             <p className="text-blue-100 text-lg mb-10 leading-relaxed">
-              Based in Dhaka, we help Bangladeshi applicants navigate international opportunities. 
+              Based in {siteSettings.address}, we help Bangladeshi applicants navigate international opportunities. 
               Our team provides tailored solutions that meet global standards and address local needs.
             </p>
             <div className="flex flex-wrap gap-8">
@@ -260,7 +262,7 @@ export default function Home() {
                   </div>
                   <div>
                     <div className="text-white font-bold">Dhaka Office</div>
-                    <div className="text-blue-100 text-sm opacity-80">Gulfesha Plaza, Maghbazar</div>
+                    <div className="text-blue-100 text-sm opacity-80">{siteSettings.dhakaOffice}</div>
                   </div>
                </div>
                <div className="flex items-center gap-3">

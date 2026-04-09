@@ -10,8 +10,13 @@ import {
   FileText,
   CreditCard
 } from "lucide-react";
+import { useGetSiteSettingsQuery } from "@/redux/api/settingsApi";
+import { TSiteSettings } from "@/types/settings";
 
 export default function FAQPage() {
+  const { data: siteResponse } = useGetSiteSettingsQuery({});
+  const siteSettings = (siteResponse?.data || {}) as TSiteSettings;
+
   const [activeTab, setActiveTab] = useState("general");
   const [openItems, setOpenItems] = useState<number[]>([]);
 
@@ -33,7 +38,7 @@ export default function FAQPage() {
       },
       {
         q: "Do I need to visit your office in person?",
-        a: "While we love meeting our clients at our Dhaka office, many of our services can be handled completely online through our secure digital portal for your convenience."
+        a: `While we love meeting our clients at our ${siteSettings.address || "Dhaka"} office, many of our services can be handled completely online through our secure digital portal for your convenience.`
       }
     ],
     payments: [
@@ -167,12 +172,12 @@ export default function FAQPage() {
             <h3 className="text-3xl font-bold text-white mb-4">Still have questions?</h3>
             <p className="text-gray-400 mb-8 max-w-lg mx-auto">
               Our support team is here to help you. Reach out to us via call, 
-              email or visit our office in Dhaka.
+              email or visit our office in {siteSettings.address || "Dhaka"}.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-               <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold transition">
+               <Link href="/contact" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold transition">
                  Contact Support
-               </button>
+               </Link>
                <button className="bg-white/5 hover:bg-white/10 border border-white/10 text-white px-8 py-4 rounded-2xl font-bold transition">
                  Visit Help Center
                </button>

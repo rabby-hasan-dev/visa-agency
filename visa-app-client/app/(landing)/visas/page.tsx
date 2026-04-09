@@ -2,8 +2,13 @@
 
 import { Briefcase, GraduationCap, Map, Users, Plane, ShieldCheck, ArrowRight, Heart, Globe, Search } from "lucide-react";
 import Link from "next/link";
+import { useGetSiteSettingsQuery } from "@/redux/api/settingsApi";
+import { TSiteSettings } from "@/types/settings";
 
 export default function VisasPage() {
+  const { data: siteResponse } = useGetSiteSettingsQuery({});
+  const siteSettings = (siteResponse?.data || {}) as TSiteSettings;
+
   const categories = [
     {
       title: "Visitor Visas",
@@ -42,7 +47,7 @@ export default function VisasPage() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-gradient-to-b from-blue-600/10 to-transparent -z-10" />
         <div className="max-w-4xl mx-auto text-center space-y-6 animate-in fade-in duration-700">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full text-[10px] font-black uppercase tracking-widest text-blue-500 mb-2">
-            <Globe size={12} /> Migration Directory
+            <Globe size={12} /> {siteSettings.brandName || "Migration Directory"}
           </div>
           <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-none">
             Explore <span className="text-blue-500">Visas</span>
@@ -81,7 +86,7 @@ export default function VisasPage() {
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                     <RequirementItem 
                       title="Health Checks" 
-                      desc="Most visas require you to meet the Australian health standard. This usually means a medical exam in Dhaka." 
+                      desc={`Most visas require you to meet the Australian health standard. This usually means a medical exam in ${siteSettings.address || "Dhaka"}.`} 
                     />
                     <RequirementItem 
                       title="Character Test" 
