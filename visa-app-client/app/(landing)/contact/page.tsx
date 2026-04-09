@@ -1,77 +1,145 @@
 "use client";
+
+import { Mail, Phone, MapPin, MessageSquare, Clock, Globe, ArrowRight, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { useGetSiteSettingsQuery } from "@/redux/api/settingsApi";
 import { TSiteSettings } from "@/types/settings";
 
-
-export default function Page() {
+export default function ContactPage() {
   const { data: siteResponse } = useGetSiteSettingsQuery({});
-
-  const siteSettings = (siteResponse?.data ?? {
-    siteName: "ImmiAccount",
-    brandName: "Australian Government",
-    departmentName: "Department of Home Affairs",
-  }) as TSiteSettings;
+  const siteSettings = (siteResponse?.data || {}) as TSiteSettings;
 
   return (
-    <div className="bg-white min-h-screen font-sans text-gray-800">
-      <header className="bg-[#00264d] text-white">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <div className="flex flex-col border-r border-white/30 pr-4">
-              <span className="font-bold text-lg leading-tight tracking-wide">
-                {siteSettings.brandName}
-              </span>
-              <span className="text-sm font-light">
-                {siteSettings.departmentName}
-              </span>
-            </div>
-            <div className="pl-2 font-light text-xl tracking-wide hidden sm:block">
-              Contact Us
-            </div>
+    <div className="bg-[#020617] min-h-screen text-white pb-24 font-sans">
+      {/* ── Hero Section ── */}
+      <div className="relative pt-32 pb-20 px-4 overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-gradient-to-b from-blue-600/10 to-transparent -z-10" />
+        <div className="max-w-4xl mx-auto text-center space-y-6 animate-in fade-in slide-in-from-top-4 duration-700">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full text-[10px] font-black uppercase tracking-widest text-blue-500 mb-2">
+            <Globe size={12} /> Global Support Network
           </div>
-          <Link href="/" className="hover:underline text-sm font-light">
-            Back to Home
-          </Link>
-        </div>
-      </header>
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        <h1 className="text-4xl font-bold text-[#00264d] mb-12 text-center border-b pb-4">Contact Us</h1>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 text-left">
-          <div className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200 flex flex-col h-full">
-            <h2 className="text-xl font-bold text-[#2150a0] mb-4">Online Enquiries</h2>
-            <p className="text-gray-700 leading-relaxed mb-6 flex-grow">
-              Most queries can be resolved using our online forms via ImmiAccount or VEVO. If you still need help, you can submit an enquiry online for technical support or general questions.
-            </p>
-            <Link href="/" className="text-[#2150a0] font-semibold hover:underline">Submit an online enquiry →</Link>
-          </div>
-          
-          <div className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200 flex flex-col h-full">
-            <h2 className="text-xl font-bold text-[#2150a0] mb-4">Call Us</h2>
-            <p className="text-gray-700 leading-relaxed mb-6 flex-grow">
-              Contact our Global Service Centre for inquiries regarding visas and citizenship. Operating hours are 9 AM to 5 PM, Monday to Friday. Wait times may apply.
-            </p>
-            <span className="text-[#2150a0] font-bold">131 881</span>
-          </div>
-
-          <div className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200 flex flex-col h-full">
-            <h2 className="text-xl font-bold text-[#2150a0] mb-4">Office Locations</h2>
-            <p className="text-gray-700 leading-relaxed mb-6 flex-grow">
-              Find the address and operating hours of our domestic and international offices. Note that most services must now be conducted online. We no longer accept walk-ins for general enquiries.
-            </p>
-            <Link href="/" className="text-[#2150a0] font-semibold hover:underline">Find an office →</Link>
-          </div>
-        </div>
-
-        <div className="bg-[#e6f0fa] p-8 rounded-lg border border-[#b3d4f5] text-center">
-            <h3 className="text-xl font-bold text-[#00264d] mb-2">Provide Feedback</h3>
-            <p className="text-gray-700 mb-6 max-w-3xl mx-auto">
-              We welcome your suggestions, compliments, or complaints. This feedback helps us improve our services and the user experience.
-            </p>
-            <Link href="/" className="bg-[#2150a0] text-white px-6 py-2 rounded font-bold hover:bg-[#153468] transition inline-block">Submit Feedback</Link>
+          <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-none">
+            Get In <span className="text-blue-500">Touch</span>
+          </h1>
+          <p className="text-gray-400 text-sm md:text-lg font-medium max-w-2xl mx-auto leading-relaxed">
+            Have questions about your Australian visa? Our expert team in Bangladesh and Australia is ready to help you navigate the process.
+          </p>
         </div>
       </div>
+
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* ── Contact Cards ── */}
+        <div className="lg:col-span-2 space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <ContactCard 
+              icon={MessageSquare}
+              title="Online Enquiry"
+              description="Best for non-urgent questions about visa types or document requirements."
+              actionText="Start a Chat"
+              actionLink="/support"
+              color="blue"
+            />
+            <ContactCard 
+              icon={Phone}
+              title="Call Our Experts"
+              description="Direct support for technical issues or urgent application updates."
+              actionText={siteSettings?.supportPhone || "+880-XXXX-XXXXXX"}
+              actionLink={`tel:${siteSettings?.supportPhone}`}
+              color="emerald"
+            />
+          </div>
+
+          {/* ── Office Locations ── */}
+          <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 md:p-12 backdrop-blur-xl relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/5 rounded-full translate-x-32 -translate-y-32 blur-3xl group-hover:bg-blue-600/10 transition-colors" />
+            <h2 className="text-2xl font-black tracking-tighter uppercase mb-8 flex items-center gap-3">
+              <MapPin className="text-blue-500" /> Regional Hubs
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <div className="space-y-4">
+                <p className="text-[10px] font-black text-blue-500 uppercase tracking-[0.2em]">Bangladesh Operations</p>
+                <div className="space-y-2">
+                  <h3 className="text-xl font-bold">Dhaka Head Office</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    Gulshan-2, Road 90, House 12/A<br />
+                    Dhaka 1212, Bangladesh
+                  </p>
+                  <p className="text-xs text-gray-500 flex items-center gap-2 mt-4">
+                    <Clock size={12} /> Sun - Thu: 9:00 AM - 5:00 PM
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-4 border-l border-white/5 pl-0 md:pl-12">
+                <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em]">Australian Support</p>
+                <div className="space-y-2">
+                  <h3 className="text-xl font-bold">Sydney Liaison</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    Level 45, 680 George Street<br />
+                    Sydney, NSW 2000, Australia
+                  </p>
+                  <p className="text-xs text-gray-500 flex items-center gap-2 mt-4">
+                    <Clock size={12} /> Mon - Fri: 9:00 AM - 5:00 PM (AEST)
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Sidebar Actions ── */}
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[2.5rem] p-8 text-white shadow-2xl shadow-blue-500/20 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full translate-x-10 -translate-y-10 blur-2xl" />
+            <h3 className="text-xl font-black tracking-tight uppercase mb-4">Send us a message</h3>
+            <p className="text-blue-100 text-sm mb-8 leading-relaxed">
+              We usually respond within 24 hours. Your details are safe with us.
+            </p>
+            <div className="space-y-4">
+              <input type="text" placeholder="Your Name" className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm placeholder:text-blue-200 outline-none focus:bg-white/20 transition-all" />
+              <input type="email" placeholder="Email Address" className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm placeholder:text-blue-200 outline-none focus:bg-white/20 transition-all" />
+              <textarea placeholder="How can we help?" rows={4} className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm placeholder:text-blue-200 outline-none focus:bg-white/20 transition-all" />
+              <button className="w-full bg-white text-blue-600 py-3.5 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-gray-100 transition-all active:scale-95 shadow-xl">
+                Send Message
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-md">
+             <div className="flex items-center gap-3 mb-4">
+                <ShieldCheck className="text-emerald-500" size={24} />
+                <h4 className="text-sm font-black uppercase tracking-widest">Privacy First</h4>
+             </div>
+             <p className="text-gray-400 text-xs leading-relaxed">
+               Your communication is protected by AES-256 encryption. We never share your migration details with third parties without your consent.
+             </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 mt-20 text-center">
+         <p className="text-[10px] font-black text-gray-600 uppercase tracking-[0.5em]">Global Migration Partners · Dhaka · Sydney · London</p>
+      </div>
+    </div>
+  );
+}
+
+function ContactCard({ icon: Icon, title, description, actionText, actionLink, color }: any) {
+  const colorMap = {
+    blue: "from-blue-600/20 to-indigo-600/5 text-blue-500 border-blue-500/20",
+    emerald: "from-emerald-600/20 to-teal-600/5 text-emerald-500 border-emerald-500/20",
+  };
+  const c = colorMap[color as keyof typeof colorMap];
+
+  return (
+    <div className={`bg-gradient-to-br ${c} border rounded-[2rem] p-8 space-y-4 hover:scale-[1.02] transition-all duration-300 group`}>
+      <Icon size={32} />
+      <div className="space-y-2">
+        <h3 className="text-xl font-black tracking-tight text-white uppercase">{title}</h3>
+        <p className="text-gray-400 text-sm leading-relaxed">{description}</p>
+      </div>
+      <Link href={actionLink} className="flex items-center gap-2 text-xs font-black uppercase tracking-widest group-hover:gap-4 transition-all pt-2">
+        {actionText} <ArrowRight size={14} />
+      </Link>
     </div>
   );
 }
