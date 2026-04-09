@@ -1,35 +1,24 @@
 "use client";
 import Link from "next/link";
 import {
-  Search,
-  ChevronRight,
-  FileText,
   Globe,
   ShieldCheck,
   CreditCard,
   Briefcase,
   Users,
-  Menu,
-  X,
   MapPin,
   CheckCircle2,
   TrendingUp,
-  ArrowRight
+  ArrowRight,
+  ChevronRight
 } from "lucide-react";
 import { useGetSiteSettingsQuery } from "@/redux/api/settingsApi";
 import { TSiteSettings } from "@/types/settings";
-import { useState, useEffect } from "react";
+import Header from "@/components/landing/Header";
+import Footer from "@/components/landing/Footer";
 
 export default function Home() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const { data: siteResponse } = useGetSiteSettingsQuery({});
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const siteSettings = (siteResponse?.data ?? {
     siteName: "Elite Visa Hub",
@@ -39,78 +28,7 @@ export default function Home() {
 
   return (
     <main className="bg-[#040d1a] min-h-screen font-sans text-gray-200 overflow-x-hidden">
-      {/* ─── Top Header / Navigation ───────────────────────────────── */}
-      <header 
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-          scrolled ? "bg-[#040d1a]/80 backdrop-blur-md border-b border-white/10 py-3" : "bg-transparent py-5"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20">
-              <Globe className="text-white" size={24} />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-extrabold text-xl tracking-tight text-white leading-none">
-                {siteSettings.siteName}
-              </span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-blue-400 font-bold mt-1">
-                {siteSettings.departmentName}
-              </span>
-            </div>
-          </Link>
-
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-8">
-            {["Services", "Pricing", "Immigration", "About", "FAQ"].map((item) => (
-              <Link 
-                key={item} 
-                href={`/#${item.toLowerCase()}`} 
-                className="text-sm font-medium hover:text-blue-400 transition-colors"
-              >
-                {item}
-              </Link>
-            ))}
-            <Link
-              href="/login"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full text-sm font-bold transition shadow-lg shadow-blue-600/20"
-            >
-              Client Login
-            </Link>
-          </nav>
-
-          {/* Mobile Menu Toggle */}
-          <button 
-            className="lg:hidden p-2 text-white hover:bg-white/10 rounded-full transition"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-
-        {/* Mobile Navigation */}
-        <div className={`lg:hidden absolute top-full left-0 right-0 bg-[#040d1a] border-b border-white/10 overflow-hidden transition-all duration-300 ${isMobileMenuOpen ? 'max-h-96' : 'max-h-0'}`}>
-          <div className="px-6 py-8 flex flex-col gap-6">
-            {["Services", "Pricing", "Immigration", "About", "FAQ"].map((item) => (
-              <Link 
-                key={item} 
-                href={`/#${item.toLowerCase()}`} 
-                className="text-lg font-medium"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {item}
-              </Link>
-            ))}
-            <Link
-              href="/login"
-              className="bg-blue-600 text-white px-6 py-3 rounded-xl text-center font-bold"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Client Login
-            </Link>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* ─── Hero Section ───────────────────────────────────────────── */}
       <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
@@ -153,10 +71,10 @@ export default function Home() {
                 Start Application <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
-                href="/visas"
+                href="/immigration"
                 className="bg-white/5 backdrop-blur-md border border-white/10 text-white px-8 py-4 rounded-2xl text-lg font-bold hover:bg-white/10 transition flex items-center justify-center gap-2"
               >
-                Explore Visas
+                Explore Pathways
               </Link>
             </div>
 
@@ -258,7 +176,7 @@ export default function Home() {
               <p className="text-gray-400 text-sm leading-relaxed mb-6">
                 {item.desc}
               </p>
-              <Link href="/visas" className="inline-flex items-center gap-2 text-blue-400 font-bold text-sm hover:gap-3 transition-all">
+              <Link href="/immigration" className="inline-flex items-center gap-2 text-blue-400 font-bold text-sm hover:gap-3 transition-all">
                 Learn More <ChevronRight size={16} />
               </Link>
             </div>
@@ -379,75 +297,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── Footer ──────────────────────────────────────────────────── */}
-      <footer className="bg-[#020610] text-gray-400 pt-24 pb-12 border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
-          <div className="lg:col-span-1">
-             <Link href="/" className="flex items-center gap-3 mb-8">
-              <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-                <Globe className="text-white" size={18} />
-              </div>
-              <span className="font-bold text-lg text-white">
-                {siteSettings.siteName}
-              </span>
-            </Link>
-            <p className="text-sm leading-relaxed mb-8">
-              Bangladesh&#39;s leading immigration agency specializing in Australian visa pathways and international 
-              migration solutions.
-            </p>
-            <div className="flex gap-4">
-               {/* Social links could go here */}
-            </div>
-          </div>
-          
-          <div>
-            <h4 className="font-bold mb-6 text-white text-sm uppercase tracking-widest">Resources</h4>
-            <ul className="space-y-4 text-sm">
-              <li><Link href="/visas" className="hover:text-blue-400 transition">Visa Categories</Link></li>
-              <li><Link href="/pricing-estimator" className="hover:text-blue-400 transition">Fee Estimator</Link></li>
-              <li><Link href="/processing-times" className="hover:text-blue-400 transition">Processing Times</Link></li>
-              <li><Link href="/vevo" className="hover:text-blue-400 transition">VEVO Check</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-bold mb-6 text-white text-sm uppercase tracking-widest">Company</h4>
-            <ul className="space-y-4 text-sm">
-              <li><Link href="/our-department" className="hover:text-blue-400 transition">About Us</Link></li>
-              <li><Link href="/contact" className="hover:text-blue-400 transition">Contact Us</Link></li>
-              <li><Link href="/support" className="hover:text-blue-400 transition">Client Support</Link></li>
-              <li><Link href="/legal" className="hover:text-blue-400 transition">Career Opportunities</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-bold mb-6 text-white text-sm uppercase tracking-widest">Newsletter</h4>
-            <p className="text-sm mb-6">Stay updated with the latest immigration news and policy changes.</p>
-            <div className="flex gap-2">
-              <input 
-                type="email" 
-                placeholder="Email address" 
-                className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-sm outline-none focus:border-blue-500 w-full" 
-              />
-              <button className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition">
-                <ArrowRight size={20} />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-xs gap-8">
-          <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 order-2 md:order-1">
-            <Link href="/privacy" className="hover:text-white transition">Privacy Policy</Link>
-            <Link href="/legal" className="hover:text-white transition">Terms of Service</Link>
-            <Link href="/legal#cookies" className="hover:text-white transition">Cookie Policy</Link>
-            <Link href="/legal#disclaimer" className="hover:text-white transition">Disclaimer</Link>
-          </div>
-          <div className="order-1 md:order-2 opacity-50">
-            &copy; {new Date().getFullYear()} {siteSettings.brandName}. All rights reserved.
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 }
