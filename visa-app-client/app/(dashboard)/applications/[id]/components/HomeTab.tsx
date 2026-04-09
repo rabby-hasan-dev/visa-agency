@@ -72,69 +72,36 @@ export const HomeTab = ({
   const isAdmin = user?.role === "admin" || user?.role === "superAdmin";
 
   return (
-    <>
-      <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-4 gap-3">
-        <h2 className="text-[#2150a0] font-bold text-[15px] flex items-center gap-[5px]">
-          Application home
-          <span className="bg-[#00264d] text-white rounded-full w-[14px] h-[14px] text-[10px] flex items-center justify-center">
-            ?
-          </span>
-        </h2>
-        {isAdmin && (
-           <div className="flex items-center gap-2">
-             <span className="text-[10px] font-bold text-gray-500 uppercase">TRN Identifier:</span>
-             {isEditingTrn ? (
-               <div className="flex items-center gap-1">
-                 <input 
-                   value={newTrn} 
-                   onChange={(e) => setNewTrn(e.target.value)}
-                   className="text-[11px] px-2 py-0.5 border border-blue-300 outline-none rounded-sm w-24 sm:w-auto"
-                   placeholder="Enter TRN"
-                 />
-                 <button onClick={handleUpdateTrn} disabled={isTrnUpdating} className="text-green-600 hover:text-green-700">
-                    {isTrnUpdating ? <Loader2 size={12} className="animate-spin" /> : <Save size={12} />}
-                 </button>
-                 <button onClick={() => setIsEditingTrn(false)} className="text-red-600 hover:text-red-700">
-                    <X size={12} />
-                 </button>
-               </div>
-             ) : (
-               <div className="flex items-center gap-1.5 px-2 py-0.5 bg-gray-100 rounded-sm border border-gray-200 w-fit">
-                 <span className="text-[11px] font-black text-[#00264d]">{application.trn || "PENDING"}</span>
-                 <button onClick={() => setIsEditingTrn(true)} className="text-gray-400 hover:text-blue-600 transition-colors">
-                    <Edit3 size={11} />
-                 </button>
-               </div>
-             )}
-           </div>
-        )}
-      </div>
-
-      <div className="mb-[15px] text-[12px] flex items-center gap-[10px]">
-        <p className="m-0">
-          <strong>
-            Application status:{" "}
-            {application.status.replace(/_/g, " ")}
-          </strong>
-        </p>
-        {isAdmin && (
-          <select
-            value={application.status}
-            onChange={handleStatusChange}
-            disabled={isStatusUpdating}
-            className="py-[3px] px-1.5 text-[11px] border border-[#ccc] rounded-[3px] cursor-pointer"
-          >
-            <option value="DRAFT">Draft</option>
-            <option value="SUBMITTED">Submitted</option>
-            <option value="PAYMENT_PENDING">Payment Pending</option>
-            <option value="PAID">Paid</option>
-            <option value="APPROVED">Approved</option>
-            <option value="REJECTED">Rejected</option>
-            <option value="GRANTED">Granted</option>
-            <option value="REFUSED">Refused</option>
-          </select>
-        )}
-      </div>
+    <div className="text-gray-800">
+      {/* TRN Editor (admin only) */}
+      {isAdmin && (
+        <div className="flex items-center gap-2 mb-5 p-3 bg-gray-50 border border-gray-100 rounded-lg">
+          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">TRN Ref:</span>
+          {isEditingTrn ? (
+            <div className="flex items-center gap-1.5">
+              <input
+                value={newTrn}
+                onChange={(e) => setNewTrn(e.target.value)}
+                className="text-sm px-2 py-1 border border-blue-300 rounded-lg outline-none text-gray-900 bg-white w-32"
+                placeholder="Enter TRN"
+              />
+              <button onClick={handleUpdateTrn} disabled={isTrnUpdating} className="text-green-600 hover:text-green-700 p-1">
+                {isTrnUpdating ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
+              </button>
+              <button onClick={() => setIsEditingTrn(false)} className="text-rose-500 hover:text-rose-700 p-1">
+                <X size={14} />
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-bold text-gray-700">{application.trn || "PENDING"}</span>
+              <button onClick={() => setIsEditingTrn(true)} className="text-gray-400 hover:text-blue-600 transition-colors">
+                <Edit3 size={13} />
+              </button>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="mb-[15px]">
         <h3 className="text-[12px] font-bold mb-1.5">Applicants</h3>
@@ -244,17 +211,18 @@ export const HomeTab = ({
         )}
       </div>
 
+      {/* Application History */}
       <div className="mb-5 overflow-x-auto">
-        <h3 className="text-[13px] font-bold text-[#2150a0] mb-2 px-1">
+        <h3 className="text-sm font-semibold text-gray-700 mb-3">
           Application history
         </h3>
-        <table className="w-full border-collapse text-[12px] min-w-[500px]">
+        <table className="w-full border-collapse text-sm min-w-[500px]">
           <thead>
-            <tr className="bg-[#555] text-white">
-              <th className="text-left py-1.5 px-2.5 font-normal">Type</th>
-              <th className="text-left py-1.5 px-2.5 font-normal">Date</th>
-              <th className="text-left py-1.5 px-2.5 font-normal">Updated By</th>
-              <th className="text-left py-1.5 px-2.5 font-normal">Action</th>
+            <tr className="bg-gray-700 text-white">
+              <th className="text-left py-2 px-3 font-medium text-xs">Type</th>
+              <th className="text-left py-2 px-3 font-medium text-xs">Date</th>
+              <th className="text-left py-2 px-3 font-medium text-xs">Updated By</th>
+              <th className="text-left py-2 px-3 font-medium text-xs">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -450,6 +418,6 @@ export const HomeTab = ({
       {showReceiptView && (
         <ReceiptPdfView application={application} onClose={() => setShowReceiptView(false)} />
       )}
-    </>
+    </div>
   );
 };

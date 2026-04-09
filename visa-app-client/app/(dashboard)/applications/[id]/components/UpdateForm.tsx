@@ -158,48 +158,47 @@ export const UpdateForm = ({
   };
 
   return (
-    <form
-      ref={formRef}
-      onSubmit={handleSubmit}
-      className="border border-[#ddd] bg-[#f9f9f9]"
-    >
+    <form ref={formRef} onSubmit={handleSubmit} className="space-y-5 text-gray-800">
       {/* Form Header */}
-      <div className="bg-[#00264d] text-white py-1 px-2.5 text-[13px] font-bold">
-        {getHeader()}{type === "passport" && ` — Step ${step} of 2`}
+      <div className="flex items-center justify-between">
+        <div>
+          <h3 className="text-base font-semibold text-gray-900">{getHeader()}</h3>
+          {type === "passport" && <p className="text-xs text-gray-400 mt-0.5">Step {step} of 2</p>}
+        </div>
+        <button type="button" onClick={onCancel}
+          className="text-xs text-gray-400 hover:text-gray-700 underline transition-colors">
+          ← Back to options
+        </button>
       </div>
 
-      <div className={`p-[15px] bg-white force-print ${step === 2 ? "hidden" : "block"}`}>
-        <div className="text-[13px] mb-[15px]">
-          Transaction Reference Number (TRN): <strong>{trn}</strong>
-        </div>
+      {/* TRN Reference */}
+      <div className="text-xs text-gray-500 bg-gray-50 border border-gray-100 rounded-lg px-3 py-2">
+        Transaction Reference: <span className="font-semibold text-gray-700">{trn}</span>
+      </div>
 
-        {/* Applicant Section */}
-        <div className="mb-5">
-          <div className="text-[#2150a0] font-bold text-[13px] mb-[5px]">
-            Applicant
+      {/* Applicant Info */}
+      <div className={`bg-white border border-gray-200 rounded-xl p-4 ${step === 2 ? "hidden" : "block"}`}>
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Applicant</p>
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm shrink-0">
+            {application.clientId?.name?.charAt(0)?.toUpperCase() || "?"}
           </div>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-2.5 text-[13px]">
-            <div className="w-full sm:w-[140px] font-bold">Required applicant</div>
-            <div className="flex items-center gap-[5px] w-full sm:w-auto">
-              <div className="border border-[#ccc] py-[2px] px-2 bg-[#f8f9fa] text-[12px] font-bold text-[#333] flex-1 sm:min-w-[200px]">
-                {application.clientId?.name || application.email || "Applicant"} (
-                {(application.clientId?.dateOfBirth || application.profile?.dateOfBirth) ? (
-                  new Date(application.clientId?.dateOfBirth || application.profile?.dateOfBirth as string).toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric",
-                  })
-                ) : "N/A"}
-                )
-              </div>
-              <span className="bg-[#00264d] text-white rounded-full w-3.5 h-3.5 text-[10px] flex items-center justify-center cursor-help shrink-0">
-                ?
-              </span>
-            </div>
+          <div>
+            <p className="text-sm font-semibold text-gray-900">
+              {application.clientId?.name || application.email || "Applicant"}
+            </p>
+            <p className="text-xs text-gray-400">
+              {(application.clientId?.dateOfBirth || application.profile?.dateOfBirth)
+                ? new Date(application.clientId?.dateOfBirth || application.profile?.dateOfBirth as string)
+                    .toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })
+                : "Date of birth not on file"}
+            </p>
           </div>
         </div>
+      </div>
 
-        {/* Dynamic Form Content */}
+      {/* Dynamic Form Content */}
+      <div className={`bg-white border border-gray-200 rounded-xl p-5 space-y-4 ${step === 2 ? "hidden" : "block"}`}>
         {type === "address" && (
           <div className="text-[13px]">
             <p className="mb-2.5">
@@ -678,56 +677,45 @@ export const UpdateForm = ({
         </div>
       )}
 
-      {/* Form Footer Buttons */}
-      <div data-no-print="true" className="bg-[#f5f5f5] p-2.5 flex flex-col sm:flex-row justify-between border-t border-[#ddd] gap-3">
+      {/* Footer Buttons */}
+      <div data-no-print="true" className="flex flex-col sm:flex-row justify-between gap-3 pt-2">
         <div className="flex flex-wrap gap-2">
-          {/* Cancel */}
-          <button type="button" onClick={onCancel} className="bg-white border border-[#ccc] py-1 px-2.5 text-[12px] flex items-center gap-1.5 hover:bg-gray-50">
-            <span className="text-red-600">✘</span> Cancel
+          <button type="button" onClick={onCancel}
+            className="px-4 py-2 text-sm border border-gray-200 rounded-lg hover:bg-gray-50 text-gray-600 transition-colors">
+            Cancel
           </button>
- 
-          {/* Save / Submit (only on step 1) */}
           {step === 1 && (
             <button
               type={["address", "contact", "email"].includes(type) ? "submit" : "button"}
               disabled={isLoading}
               onClick={["address", "contact", "email"].includes(type) ? undefined : handleSave}
-              className={`bg-white border border-[#ccc] py-1 px-2.5 text-[12px] flex items-center gap-1.5 hover:bg-gray-50 ${isLoading ? "opacity-70" : "opacity-100"}`}
+              className="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors disabled:opacity-60"
             >
-              <span className="text-blue-600">💾</span> {isLoading ? "Saving..." : "Save"}
+              {isLoading ? "Saving..." : "Save"}
             </button>
           )}
- 
-          {/* Print */}
-          <button type="button" onClick={handlePrint} className="bg-white border border-[#ccc] py-1 px-2.5 text-[12px] flex items-center gap-1.5 hover:bg-gray-50">
-            <span>⎙</span> Print
-          </button>
- 
-          {/* Go to account */}
-          <button type="button" onClick={onCancel} className="bg-white border border-[#ccc] py-1 px-2.5 text-[12px] flex items-center gap-1.5 hover:bg-gray-50">
-            <span>›</span> Go to account
+          <button type="button" onClick={handlePrint}
+            className="px-4 py-2 text-sm border border-gray-200 rounded-lg hover:bg-gray-50 text-gray-600 transition-colors">
+            Print
           </button>
         </div>
- 
-        <div className="flex flex-wrap gap-2 justify-end sm:justify-start">
-          {/* Back button on step 2 */}
+        <div className="flex flex-wrap gap-2">
           {step === 2 && (
-            <button type="button" onClick={() => setStep(1)} className="bg-white border border-[#ccc] py-1 px-2.5 text-[12px] flex items-center gap-1.5 hover:bg-gray-50">
-              <span>⇦</span> Back
+            <button type="button" onClick={() => setStep(1)}
+              className="px-4 py-2 text-sm border border-gray-200 rounded-lg hover:bg-gray-50 text-gray-600 transition-colors">
+              ← Back
             </button>
           )}
- 
-          {/* Next (step 1, passport only) */}
           {type === "passport" && step === 1 && (
-            <button type="button" onClick={handleNext} className="bg-white border border-[#ccc] py-1 px-2.5 text-[12px] flex items-center gap-1.5 hover:bg-gray-50">
-              Next <span>⇨</span>
+            <button type="button" onClick={handleNext}
+              className="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+              Next →
             </button>
           )}
- 
-          {/* Confirm & Submit on passport step 2 */}
           {type === "passport" && step === 2 && (
-            <button type="submit" disabled={isLoading} className={`bg-[#00264d] text-white border border-[#ccc] py-1 px-3 text-[12px] flex items-center gap-1.5 hover:bg-[#001a33] ${isLoading ? "opacity-70" : "opacity-100"}`}>
-              {isLoading ? "Please wait..." : <>✔ Confirm & Submit</>}
+            <button type="submit" disabled={isLoading}
+              className="px-5 py-2 text-sm font-semibold bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors disabled:opacity-60">
+              {isLoading ? "Submitting..." : "✓ Confirm & Submit"}
             </button>
           )}
         </div>
